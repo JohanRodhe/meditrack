@@ -24,6 +24,18 @@ class MedicineList(ListView):
     def get_queryset(self):
         return Medicine.objects.all()
 
+def index(request):
+    return render(request, "index.html", {})
+
+def login(request):
+    return render(request, "index.html", {})
+
+def register(request):
+    return render(request, "index.html", {})
+
+def logout(request):
+    return render(request, "index.html", {})
+
 def home(request):
     return render(request, "home.html", {"date": DATE})
 

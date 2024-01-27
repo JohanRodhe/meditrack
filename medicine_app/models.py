@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -9,7 +8,6 @@ class Medicine(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Event(models.Model):
     name = models.CharField(max_length=100)
@@ -20,3 +18,21 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    medications = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    password = models.CharField(max_length=100)
+    persons = models.ManyToManyField(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+    
+
