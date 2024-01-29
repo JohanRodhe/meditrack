@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .forms import MedicineForm, EventForm
 from .models import Medicine
 from django.views.generic import ListView
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods 
+from django.contrib.auth.decorators import login_required
 import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -27,15 +28,7 @@ class MedicineList(ListView):
 def index(request):
     return render(request, "index.html", {})
 
-def login(request):
-    return render(request, "index.html", {})
-
-def register(request):
-    return render(request, "index.html", {})
-
-def logout(request):
-    return render(request, "index.html", {})
-
+@login_required
 def home(request):
     return render(request, "home.html", {"date": DATE})
 
