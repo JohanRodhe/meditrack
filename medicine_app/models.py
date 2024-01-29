@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
@@ -26,13 +27,7 @@ class Person(models.Model):
     def __str__(self):
         return self.name
 
-class User(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
-    persons = models.ManyToManyField(Person, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.name
-    
+
+ 
 
