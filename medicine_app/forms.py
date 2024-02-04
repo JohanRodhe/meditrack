@@ -1,8 +1,7 @@
 from django import forms
-from .models import Medicine, Event
+from .models import Medicine, MedicineEvent
 
 class MedicineForm(forms.ModelForm):
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -14,17 +13,15 @@ class MedicineForm(forms.ModelForm):
         fields = "__all__"
 
 
-class EventForm(forms.ModelForm):
-
+class MedicineEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['medicine'].queryset = Medicine.objects.filter(current_dose__gt=0)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             visible.field.widget.attrs['placeholder'] = visible.field.label
 
     class Meta:
-        model = Event
+        model = MedicineEvent
         fields = "__all__"
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})

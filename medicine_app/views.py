@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import MedicineForm, EventForm
+from .forms import MedicineForm, MedicineEventForm
 from .models import Medicine
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods 
@@ -30,7 +30,7 @@ def index(request):
 
 @login_required
 def home(request):
-    return render(request, "home.html", {"date": DATE})
+    return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
 
 def show_calendar(request):
     return render(request, "partials/calendar.html", {"date": DATE})
@@ -65,19 +65,30 @@ def show_create_form(request):
     form = MedicineForm()
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm()})
 
-def show_create_event_form(request):
-    form = EventForm()
-    return render(request, "partials/create_event_form.html", {"form": EventForm()})
+@login_required
+def show_create_event_form(request, day=None):
+    form = MedicineEventForm()
+    if day:
+        new = DATE.replace(day=day)
+        form.fields["date"].initial = new
+    else:
+        form.fields["date"].initial = DATE
+    return render(request, "partials/create_event_form.html", {"form": form})
 
 def create_event(request):
     if request.method == "POST":
-        form = EventForm(request.POST)
+        form = MedicineEventForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, "partials/calendar.html", {"date": DATE})
+            med = form.cleaned_data["medicine"]
+            doses = form.cleaned_data["doses"]
+            med.current_dose += doses
+            print(med)
+            med.save()
+            return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
     else:
-        form = EventForm()
-    return render(request, "partials/calendar.html", {"date": DATE})
+        form = MedicineEventForm()
+    return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
 
 def view_next_month(request):
     global DATE
