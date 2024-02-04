@@ -8,17 +8,15 @@ body {
   background-color: #e9e6e6 !important;
 }
 
+.container-lg {
+  margin-left: 50px !important;
+  margin-right: 50px !important;
+}
+
 .logo {
   color: rgb(97, 185, 137);
 }
 
-/* .navbar {
-  background-color: rgb(45, 48, 46);
-} */
-
-/* .navbar .btn-link, span, i {
-  color: white;
-} */
 .my-form {
   background-color: white;
 }
@@ -48,10 +46,6 @@ body {
 
 .calendar-banner {
   background-color: rgb(97, 185, 137);
-}
-
-#calendar {
-  
 }
 
 /* Month header */
@@ -127,13 +121,6 @@ body {
   padding: 15px;
 }
 
-/* Highlight the "current" day */
-.days button .active {
-  font-size: 16px;
-  background: #1abc9c;
-  color: white !important
-}
-
 ::view-transition-old(slide-it) {
   animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
   600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
@@ -152,26 +139,33 @@ body {
 }
 
 @keyframes slide-from-right {
-  from { transform: translateX(90px); }
+  from { transform: translateX(190px); }
 }
+
+@keyframes slide-to-right {
+  to { transform: translateX(190px); }
+}
+
 
 @keyframes slide-to-left {
   to { transform: translateX(-90px); }
 }
 
-/* define animations for the old and new content */
-::view-transition-old(slide-it) {
-  animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-  300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-}
-::view-transition-new(slide-it) {
-  animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-  300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-}
-
 /* tie the view transition to a given CSS class */
 .slide-it {
     view-transition-name: slide-it;
+}
+
+.fade-me-in.htmx-added {
+  animation: fade-in 0.5s, slide-from-right 0.5s;
+}
+
+.fade-me-out.htmx-swapping {
+  animation: fade-out 0.5s, slide-to-right 0.5s;
+  animation-fill-mode: forwards;
+  /* opacity: 0;
+  transition: opacity 1s ease-out; */
+
 }
 
 
