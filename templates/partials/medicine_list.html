@@ -1,27 +1,36 @@
-    <ul class="list-group" id="medicine-list">
-        {% for medicine in medicines %}
-            <li class="align-items-center justify-content-between d-flex list-group-item">
-                {{ medicine.name }}
-                {{ medicine.doses }}
-                <div>
-                <button class="btn btn-danger">
-                    <i class="fa fa-minus"></i>
-                </button>
-                {{ medicine.current_dose }}
-                <button class="btn btn-success" hx-post="{% url 'update_medicine' medicine.pk %}" hx-target="#medicine-list">
-                    <i class="fa fa-plus"></i>
-                </button>
-                    </div>
-                </li>
-                <!-- <div class="progress">
-                    <div class="progress-bar" style="width:{{ medicine.current_dose }}%" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                </div> -->
-                <span class="btn btn-danger justify-content-end col-1" hx-delete="{% url 'delete_medicine' medicine.pk %}" hx-target="#medicine-list">
-                    <i class="fa fa-trash"></i>
-                </span>
-        {% empty %}
-            Hittade inga mediciner
-            <!-- <li class="align-items-center justify-content-between d-flex list-group-item">
-            Hittade inga mediciner </li> -->
-        {% endfor %}
-    </ul>
+<ul class="list-group" id="medicine-list">
+  {% for medicine in medicines %}
+  <li class="p-3 list-group-item">
+    <div class="row">
+      <div class="col-12">
+        <h5>{{ medicine.name }}</h5>
+      </div>
+    </div>
+    <div class="row align-items-center justify-content-between">
+      <div class="col-auto">
+        <button class="btn btn-outline-primary">
+          <i class="fa fa-minus"></i>
+        </button>
+        {{ medicine.current_dose }} / {{ medicine.doses }}
+        <button
+          class="btn btn-outline-primary"
+          hx-post="{% url 'update_medicine' medicine.pk %}"
+          hx-target="#medicine-list"
+        >
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div class="col-auto">
+        <span
+          class="btn btn-outline-danger"
+          hx-delete="{% url 'delete_medicine' medicine.pk %}"
+          hx-target="#medicine-list"
+        >
+          <i class="fa fa-trash"></i>
+        </span>
+      </div>
+    </div>
+  </li>
+  {% empty %} Hittade inga mediciner
+  {% endfor %}
+</ul>
