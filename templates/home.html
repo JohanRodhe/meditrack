@@ -1,14 +1,14 @@
 {% extends 'base.html' %} 
 {% block content %} 
 <div id="main" class="col-8 offset-2">
-    <div id="calendar" class="slide-it">
+    <div id="container" class="slide-it">
         {% include "partials/calendar.html" %}
+        <h2 class="mt-3"> Mina mediciner </h2>
+        <div id="medicine-form-container"></div>
+        {% include "partials/medicine_list.html" %}
+        <button class="btn btn-success mt-2 p-2 px-4" hx-get="{% url 'show_create_form' %}" hx-target="#medicine-form-container">
+            <i class="fa fa-plus"></i>
+        </button>
     </div>
-    <!-- <div class="mb-0" id="medicine-form"></div>
-    <h1> Mina mediciner </h1>
-    {% include "partials/medicine_list.html" %}
-    <button class="btn btn-success mt-4" hx-get="{% url 'show_create_form' %}" hx-target="#medicine-form" hx-swap="innerHTML">
-        Lägg till ny medicin <i class="fa fa-plus"></i>
-    </button> -->
 </div>
 {% endblock content %}

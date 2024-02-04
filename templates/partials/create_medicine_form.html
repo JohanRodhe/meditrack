@@ -1,23 +1,13 @@
-<form class="mb-4 p-4 border border-primary rounded" id="create-medicine-form" hx-post="{% url 'create_medicine' %}" hx-target="#medicine-list" hx-swap="innerHTML">
+<form class="mb-4 p-4 bg-white rounded" id="create-medicine-form" hx-post="{% url 'create_medicine' %}" hx-target="#medicine-list" hx-swap="innerHTML">
     {% csrf_token %}
     <!-- {{ form.as_table }} -->
     <div class="form-group">
-        {{ form.name.label_tag }}
-        {{ form.name }}
-        {{ form.name.errors }}
-
-        {{ form.doses.label_tag }}
-        {{ form.doses }}
-
-        {{ form.current_dose.label_tag }}
-        {{ form.current_dose }} 
-
+        {{ form.as_p }}
     </div>
-
-    <button type="submit" value="Save" class="btn btn-primary mt-4">
+    <button type="submit" value="Save" class="btn btn-primary mt-2 p-2 px-3">
         Spara
     </button>
-    <button type="button" class="btn btn-secondary mt-4" hx-get="{% url 'empty_view' %}" hx-target="#create-medicine-form" hx-swap="innerHTML">
+    <button type="button" class="btn btn-secondary mt-2 p-2 px-3" hx-get="{% url 'empty_view' %}" hx-target="#medicine-form-container">
         Avbryt
     </button>
 </form>

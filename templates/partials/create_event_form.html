@@ -1,28 +1,26 @@
-<div id="event" class="slide-it">
-
-<div class="bg-primary">
-    <h3 class="mb-0 p-4" style="color: white">
-        Skapa ny händelse
-        
-    </h3>
+<div>
+  <h3>Händelser</h3>
+  Inga händelser att visa
 </div>
-<form class="mb-0 p-4 border border-primary rounded-bottom" id="create-event-form" hx-post="{% url 'create_event' %}" hx-target="#calendar" hx-swap="innerHTML">
-    {% csrf_token %}
-    <!-- {{ form.as_table }} -->
-        {{ form.name.label_tag }}
-        {{ form.name }}
-        {{ form.name.errors }}
-
-        {{ form.type.label_tag }}
-        {{ form.type }}
-
-        {{ form.medicine.label_tag }}
-        {{ form.medicine }} 
-    <button type="submit" value="Save" class="btn btn-primary mt-4">
-        Spara
-    </button>
-    <button type="button" class="btn btn-secondary mt-4" hx-get="{% url 'show-calendar' %}" hx-target="closest div" hx-swap="transition:true">
-        Avbryt
-    </button>
+<h3 class="mt-4 pb-2">Skapa ny händelse</h3>
+<form
+  class="col-6 mb-0 p-4 bg-white rounded"
+  id="create-event-form"
+  hx-post="{% url 'create_event' %}"
+  hx-target="#main"
+  hx-swap="transition:true"
+>
+  {% csrf_token %} {{ form.as_table }}
+  <button type="submit" value="Save" class="btn btn-primary mt-4 p-2">
+    Spara
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary mt-4 p-2"
+    hx-get="{% url 'home' %}"
+    hx-target="#main"
+    hx-swap="transition:true"
+  >
+    Avbryt
+  </button>
 </form>
-</div>

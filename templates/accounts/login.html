@@ -1,25 +1,53 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2 class="m-5 pt-5 font-weight-bold custom-bold text-center">Välkommen tillbaka</h2>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h2 class="m-5 pt-5 font-weight-bold custom-bold text-center">
+  Välkommen tillbaka
+</h2>
 <div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-4">
-            <form method="POST" class="form-signin">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-floating mb-4 position-relative">
-                    <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                </div>
-                {% endfor %}
-                <button class="mt-2 btn btn-lg btn-primary w-100" type="submit">Logga in</button>
-            </form>
-            <div class="border-top pt-3">
-                <small class="text-muted">
-                    Har du inte ett konto? <a class="ml-2" href="{% url 'register' %}">Registrera dig</a>
-                </small>
-            </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-4">
+      <form class="form-signin" autocomplete="off" hx-indicator="#spinner">
+        {% csrf_token %} {% for field in form %}
+        <div class="form-floating mb-4 position-relative">
+          <input
+            type="{{ field.field.widget.input_type }}"
+            class="form-control"
+            id="{{ field.id_for_label }}"
+            name="{{ field.html_name }}"
+            {%
+            if
+            field.field.required
+            %}required{%
+            endif
+            %}
+          />
+          <label for="{{ field.id_for_label }}" class="form-label"
+            >{{ field.label }}</label
+          >
         </div>
+        {% endfor %}
+        <div>
+          <button
+            class="mt-2 btn btn-lg btn-primary w-100"
+            hx-post="{% url 'login' %}"
+            hx-indicator="#spinner"
+            type="submit"
+          >
+            <span>Logga in</span>
+            <img
+              id="spinner"
+              class="htmx-indicator"
+              src="{% static '785.svg' %}"
+            />
+          </button>
+        </div>
+      </form>
+      <div class="border-top pt-3">
+        <small class="text-muted">
+          Har du inte ett konto?
+          <a class="ml-2" href="{% url 'register' %}">Registrera dig</a>
+        </small>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
