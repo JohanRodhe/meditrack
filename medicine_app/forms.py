@@ -6,7 +6,7 @@ class MedicineForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-            visible.field.widget.attrs['placeholder'] = visible.field.label
+            # visible.field.widget.attrs['placeholder'] = visible.field.label
 
     class Meta:
         model = Medicine
@@ -18,7 +18,7 @@ class MedicineEventForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-            visible.field.widget.attrs['placeholder'] = visible.field.label
+            # visible.field.widget.attrs['placeholder'] = visible.field.label
 
     class Meta:
         model = MedicineEvent

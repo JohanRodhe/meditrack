@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import MedicineForm, MedicineEventForm
-from .models import Medicine
+from .models import Medicine, MedicineEvent
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods 
 from django.contrib.auth.decorators import login_required
@@ -73,7 +73,9 @@ def show_create_event_form(request, day=None):
         form.fields["date"].initial = new
     else:
         form.fields["date"].initial = DATE
-    return render(request, "partials/create_event_form.html", {"form": form})
+    
+    events = MedicineEvent.objects.filter(date=new)
+    return render(request, "partials/create_event_form.html", {"form": form, "events": events, "date": new})
 
 def create_event(request):
     if request.method == "POST":
