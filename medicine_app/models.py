@@ -1,6 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from accounts.models import User
+
+class Person(models.Model):
+    """
+    Represents a person in the system.
+    """
+
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return str(self.name)
+
 class Medicine(models.Model):
     """
     Represents a medicine in the system.
@@ -16,6 +29,7 @@ class Medicine(models.Model):
     name = models.CharField(max_length=100)
     doses = models.IntegerField()
     current_dose = models.IntegerField()
+    person = models.ForeignKey(Person, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return str(self.name)
@@ -35,6 +49,7 @@ class MedicineEvent(models.Model):
     medicine = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING)
     date = models.DateField()
     doses = models.IntegerField()
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.medicine.name
@@ -51,16 +66,6 @@ class OtherEvent(models.Model):
     def __str__(self):
         return str(self.title)
 
-class Person(models.Model):
-    """
-    Represents a person in the system.
-    """
-
-    name = models.CharField(max_length=100)
-    medications = models.ForeignKey(Medicine, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.name)
 
 
 

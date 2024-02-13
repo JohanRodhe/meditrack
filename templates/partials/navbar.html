@@ -4,10 +4,6 @@
     <i class="bi bi-heart-pulse logo" style="font-size: 40px"></i>
     <span class="ms-2">Meditrack</span>
   </a>
-  <a class="nav-link mx-3 d-flex align-items-center" href="{% url 'login' %}">
-    <i class="bi bi-person-circle" style="font-size: 40px"></i>
-    <span class="ms-2">Nils</span>
-  </a>
   <form method="post" action="{% url 'logout' %}" class="ms-auto">
     {% csrf_token %}
     <button class="btn btn-link d-flex align-items-center" type="submit">

@@ -7,8 +7,11 @@ from accounts.forms import UserRegisterForm
 from django.contrib.auth.views import LoginView
 
 def register(request):
+    print(request.method)
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
+        print(request.POST.dict())
+        print(form.errors.as_data())
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -18,6 +21,7 @@ def register(request):
             return redirect("login")
         else:
             form = UserRegisterForm()
+            # return redirect("register")
             return render(request, "accounts/register.html", {"form": form})
 
     else:

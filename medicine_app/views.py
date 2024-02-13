@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import MedicineForm, MedicineEventForm
-from .models import Medicine, MedicineEvent
+from .models import Medicine, MedicineEvent, Person
+from accounts.models import User 
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods 
 from django.contrib.auth.decorators import login_required
@@ -30,11 +31,14 @@ def index(request):
 
 @login_required
 def home(request):
-    return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
+    user = request.user
+    events = MedicineEvent.objects.filter(medicine__person__user=user)
+    persons = Person.objects.filter(user=user)
+    # TODO: Clicking on a person should show their medicines and events
+    medicines = Medicine.objects.filter(person=persons[0])
+    return render(request, "home.html", {"date": DATE, "persons": persons, "medicines": medicines, "events": events})
 
-def show_calendar(request):
-    return render(request, "partials/calendar.html", {"date": DATE})
-    
+
 def create_medicine(request):
     if request.method == "POST":
         form = MedicineForm(request.POST)
@@ -77,6 +81,7 @@ def show_create_event_form(request, day=None):
     events = MedicineEvent.objects.filter(date=new)
     return render(request, "partials/create_event_form.html", {"form": form, "events": events, "date": new})
 
+@login_required
 def create_event(request):
     if request.method == "POST":
         form = MedicineEventForm(request.POST)
@@ -85,9 +90,10 @@ def create_event(request):
             med = form.cleaned_data["medicine"]
             doses = form.cleaned_data["doses"]
             med.current_dose += doses
-            print(med)
             med.save()
-            return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
+            event_date = form.cleaned_data["date"]
+            events = MedicineEvent.objects.filter(date=event_date)
+            return render(request, "partials/day_button.html", {"day": event_date.day, "events": events})
     else:
         form = MedicineEventForm()
     return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})

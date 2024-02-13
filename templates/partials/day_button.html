@@ -1,0 +1,15 @@
+<button
+  id="day-{{ day }}"
+  class="btn {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}btn-outline-primary{% else %}btn-light{% endif %}"
+  hx-get="{% url 'show_create_event_form' day %}"
+  hx-target="#event-container"
+  hx-swap="settle:1s"
+>
+    <div class="badge-container">
+    {% for event in events %}
+      <span class="badge custom-badge">{{ event.medicine.name|slice:":1" }}</span>
+    {% endfor %}
+    </div>
+  {{ day }}
+</button>
+

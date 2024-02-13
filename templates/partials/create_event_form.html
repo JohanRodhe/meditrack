@@ -18,8 +18,9 @@
   class="mb-0 p-4 bg-white rounded fade-me-in"
   id="create-event-form"
   hx-post="{% url 'create_event' %}"
-  hx-target="#main"
-  hx-swap="swap:1s"
+  hx-target="#day-{{ date.day }}"
+  hx-swap="outerHTML"
+  hx-on::after-request="this.reset();"
 >
   {% csrf_token %} {% for field in form %}
   <div class="form-floating mb-4 position-relative">
@@ -39,6 +40,6 @@
     hx-target="#event-container"
     hx-swap="swap:1s"
   >
-    <strong>Avbryt</strong>
+    <strong>Stäng</strong>
   </button>
 </form>

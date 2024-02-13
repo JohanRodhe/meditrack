@@ -1,4 +1,12 @@
 {% extends 'base.html' %} {% block content %}
+  <div class="d-flex mb-2">
+  {% for person in persons %}
+    <a class="nav-link mx-3 d-flex align-items-center" href="{% url 'home' %}">
+      <i class="bi bi-person-circle" style="font-size: 40px"></i>
+      <span class="ms-2">{{ person.name }}</span>
+    </a>
+  {% endfor %}
+  </div>
 <div id="main" class="row d-flex justify-content-center">
   <div class="col-md-2">
     <h3>Mina mediciner</h3>

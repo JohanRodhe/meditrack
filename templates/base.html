@@ -19,7 +19,10 @@
   <body>
     <div id="main">
       {% include 'partials/navbar.html' %}
-      <div class="container-fluid mx-4">{% block content %} {% endblock content %}</div>
+      <div class="container-fluid mx-4">
+        {% block content %} 
+        {% endblock content %}
+      </div>
     </div>
 
     <script>

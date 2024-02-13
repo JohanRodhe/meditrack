@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
 <h2 class="m-5 pt-5 font-weight-bold custom-bold text-center">
   Välkommen tillbaka
 </h2>
@@ -29,6 +31,8 @@
           <button
             class="mt-2 btn btn-lg btn-primary w-100"
             hx-post="{% url 'login' %}"
+            hx-target="#main"
+            hx-swap="outerHTML"
             hx-indicator="#spinner"
             type="submit"
           >
