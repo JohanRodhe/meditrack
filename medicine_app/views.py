@@ -13,7 +13,7 @@ DATE = datetime.datetime.now()
 # Create your views here.
 class MedicineList(ListView):
     model = Medicine
-    template_name = "medicines.html"
+    template_name = "partials/medicine_list.html"
     context_object_name = "medicines"
 
     def get_context_data(self, **kwargs):
@@ -93,7 +93,9 @@ def create_event(request):
             med.save()
             event_date = form.cleaned_data["date"]
             events = MedicineEvent.objects.filter(date=event_date)
-            return render(request, "partials/day_button.html", {"day": event_date.day, "events": events})
+            response = render(request, "partials/day_button.html", {"day": event_date.day, "events": events})
+            response['HX-Trigger'] = 'new_med_event'
+            return response
     else:
         form = MedicineEventForm()
     return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})

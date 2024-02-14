@@ -9,8 +9,9 @@
   </div>
 <div id="main" class="row d-flex justify-content-center">
   <div class="col-md-2">
-    <h3>Mina mediciner</h3>
+    <div id="medicine-list" hx-get="{% url 'medicine_list' %}" hx-trigger="new_med_event from:body">
     {% include "partials/medicine_list.html" %}
+    </div> 
     <button
       class="btn btn-primary mt-2 p-2 p-3 w-100"
       hx-get="{% url 'show_create_form' %}"
