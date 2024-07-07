@@ -30,16 +30,16 @@
     >
   </div>
   {% endfor %}
-  <button type="submit" value="Save" class="btn btn-primary mt-1 p-3">
-    <strong>Spara</strong>
+  <button type="submit" value="Save" class="btn btn-primary mt-1 px-3">
+    Spara
   </button>
   <button
     type="button"
-    class="btn btn-secondary mt-1 p-3"
+    class="btn btn-secondary mt-1 px-3"
     hx-get="{% url 'empty_view' %}"
     hx-target="#event-container"
     hx-swap="swap:1s"
   >
-    <strong>Stäng</strong>
+    Stäng
   </button>
 </form>

@@ -3,7 +3,7 @@
   id="create-medicine-form"
   hx-post="{% url 'create_medicine' %}"
   hx-target="#medicine-list"
-  hx-swap="innerHTML"
+  hx-swap="innerHTML beforeend"
 >
   {% csrf_token %} 
   {% for field in form %}

@@ -1,0 +1,41 @@
+<form
+    id="create-person-form" 
+    hx-post="{% url 'create_person' %}" 
+    hx-target="#person-list" 
+    hx-swap="beforeend"
+>
+    {% csrf_token %} 
+    <div class="row">
+        <div class="col p-0">
+            {% for field in form %}
+            <div class="form-floating position-relative">
+                <input
+                    type="{{ field.field.widget.input_type }}"
+                    class="form-control meditrack-input"
+                    id="{{ field.id_for_label }}"
+                    name="{{ field.html_name }}"
+                />
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col d-flex p-0 m-0">
+            <button type="submit" value="Save" class="btn btn-primary m-0">
+                <!-- <i class="fa fa-plus fa-lg p-2"></i> -->
+                 Spara
+            </button>
+            <button
+                type="button"
+                class="btn btn-secondary m-0"
+                hx-get="{% url 'empty_view' %}"
+                hx-target="#person_form_container"
+                hx-swap="innerHTML"
+            >
+                <!-- <i class="fa fa-times fa-lg p-2"></i> -->
+                 Avbryt
+            </button>
+        </div>
+    </div>
+</form>

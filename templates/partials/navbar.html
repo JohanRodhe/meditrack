@@ -4,13 +4,29 @@
     <i class="bi bi-heart-pulse logo" style="font-size: 40px"></i>
     <span class="ms-2">Meditrack</span>
   </a>
-  <form method="post" action="{% url 'logout' %}" class="ms-auto">
-    {% csrf_token %}
-    <button class="btn btn-link d-flex align-items-center" type="submit">
-      <i class="bi bi-door-closed" style="font-size: 40px"></i>
-      <span class="ms-2">Logga ut</span>
+    <div id="person-list" class="d-flex mb-2">
+    {% for person in persons %}
+      <a class="nav-link mx-3 d-flex align-items-center" href="{% url 'home' %}">
+        <i class="bi bi-person-circle" style="font-size: 40px"></i>
+        <span class="ms-2">{{ person.name }}</span>
+      </a>
+    {% endfor %}
+    </div>
+    <button
+      class="btn btn-outline-primary mx-3"
+      hx-get="{% url 'create_person' %}"
+      hx-target="#person_form_container"
+    >
+      <i class="fa fa-user-plus"></i>
     </button>
-  </form>
+    <div id="person_form_container"></div>
+    <form method="post" action="{% url 'logout' %}" class="ms-auto">
+      {% csrf_token %}
+      <button class="btn btn-link d-flex align-items-center" type="submit">
+        <i class="bi bi-door-closed" style="font-size: 40px"></i>
+        <span class="ms-2">Logga ut</span>
+      </button>
+    </form>
 </nav>
 {% else %}
 <div class="m-5 d-flex justify-content-center">
