@@ -8,13 +8,24 @@ body {
   background-color: #e9e6e6 !important;
 }
 
+
+.my-btn {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  padding: 4px 8px !important;
+}
+
+.meditrack-input {
+  width: 200px !important;
+}
+
 .container-lg {
   margin-left: 50px !important;
   margin-right: 50px !important;
 }
 
 .logo {
-  color: rgb(97, 185, 137);
+  color: rgb(255, 0, 0);
 }
 
 .my-form {
