@@ -1,13 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-  <div class="d-flex mb-2">
-  {% for person in persons %}
-    <a class="nav-link mx-3 d-flex align-items-center" href="{% url 'home' %}">
-      <i class="bi bi-person-circle" style="font-size: 40px"></i>
-      <span class="ms-2">{{ person.name }}</span>
-    </a>
-  {% endfor %}
-  </div>
 <div id="main" class="row d-flex justify-content-center">
+  {% if persons %}
   <div class="col-md-2">
     <div id="medicine-list" hx-get="{% url 'medicine_list' %}" hx-trigger="new_med_event from:body">
     {% include "partials/medicine_list.html" %}
@@ -23,10 +16,21 @@
     <div id="medicine-form-container"></div>
   </div>
   <div id="container" class="slide-it col-md-6">
-    <h3>Kalender</h3>
     {% include "partials/calendar.html" %}
   </div>
   <div id="event-container" class="col-md-2 fade-me-out">
   </div>
+  {% else %}
+  <div class="col-md-6">
+    <div class="alert alert-warning" role="alert">
+      <h4 class="alert-heading">Välkommen!</h4>
+      <p>
+        Det ser ut som att du inte har lagt till någon person. Klicka på
+        knappen nedan för att lägga till din första person.
+      </p>
+      <hr />
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock content %}
