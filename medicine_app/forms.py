@@ -1,10 +1,13 @@
 from django import forms
-from .models import Medicine, MedicineEvent
+from .models import Medicine, MedicineEvent, Person
 from django.utils.translation import gettext_lazy as _
 
 class MedicineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        user = kwargs.pop('user', None)
+        super(MedicineForm, self).__init__(*args, **kwargs)
+        if user is not None:
+            self.fields['person'].queryset = user.person_set.all()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             # visible.field.widget.attrs['placeholder'] = visible.field.label
@@ -37,4 +40,21 @@ class MedicineEventForm(forms.ModelForm):
         }
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
+        }
+
+
+class PersonForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(PersonForm, self).__init__(*args, **kwargs)
+
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+
+    class Meta:
+        model = Person
+        fields = ['name']
+        labels = {
+            'name': _('Namn'),
         }

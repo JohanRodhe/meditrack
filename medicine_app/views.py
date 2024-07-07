@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import MedicineForm, MedicineEventForm
+from .forms import MedicineForm, MedicineEventForm, PersonForm
 from .models import Medicine, MedicineEvent, Person
 from accounts.models import User 
 from django.views.generic import ListView
@@ -35,8 +35,18 @@ def home(request):
     events = MedicineEvent.objects.filter(medicine__person__user=user)
     persons = Person.objects.filter(user=user)
     # TODO: Clicking on a person should show their medicines and events
-    medicines = Medicine.objects.filter(person=persons[0])
-    return render(request, "home.html", {"date": DATE, "persons": persons, "medicines": medicines, "events": events})
+    if (len(persons) == 0):
+        medicines=[]
+    else:
+        medicines = Medicine.objects.filter(person=persons[0])
+
+    return render(request, "home.html",
+                    {
+                        "date": DATE,
+                        "persons": persons,
+                        "medicines": medicines,
+                        "events": events
+                    })
 
 
 def create_medicine(request):
@@ -46,7 +56,7 @@ def create_medicine(request):
             form.save()
             return render(request, "partials/medicine_list.html", {"medicines": Medicine.objects.all()})
     else:
-        form = MedicineForm()
+        form = MedicineForm(user=request.user)
     return render(request, "partials/medicine_list.html", {"medicines": Medicine.objects.all()})
 
 def update_medicine(request, pk):
@@ -66,8 +76,7 @@ def delete_medicine(request, pk):
     return render(request, 'partials/medicine_list.html', {'medicines': Medicine.objects.all()})
 
 def show_create_form(request):
-    form = MedicineForm()
-    return render(request, "partials/create_medicine_form.html", {"form": MedicineForm()})
+    return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
 
 @login_required
 def show_create_event_form(request, day=None):
@@ -78,6 +87,8 @@ def show_create_event_form(request, day=None):
     else:
         form.fields["date"].initial = DATE
     
+
+    user = request.user
     events = MedicineEvent.objects.filter(date=new)
     return render(request, "partials/create_event_form.html", {"form": form, "events": events, "date": new})
 
@@ -98,19 +109,37 @@ def create_event(request):
             return response
     else:
         form = MedicineEventForm()
-    return render(request, "home.html", {"date": DATE, "medicines": Medicine.objects.all()})
+
+    user = request.user
+    persons = Person.objects.filter(user=user)
+    if (len(persons) == 0):
+        medicines=[]
+    else:
+        medicines = Medicine.objects.filter(person=persons[0])
+    return render(request, "home.html", {"date": DATE, "medicines": medicines }) 
 
 def view_next_month(request):
     global DATE
     DATE = DATE + relativedelta(months=+1)
-    print(DATE)
     return render(request, "partials/calendar.html", {"date": DATE})
 
 def view_prev_month(request):
     global DATE
     DATE = DATE + relativedelta(months=-1)
-    print(DATE)
     return render(request, "partials/calendar.html", {"date": DATE})
 
 def empty_view(request):
     return render(request, "partials/empty.html", {})
+
+def create_person(request):
+    if (request.POST):
+        form = PersonForm(request.POST)
+        print("create person", form.is_valid())
+        if form.is_valid():
+            person = form.save(commit=False)
+            person.user = request.user
+            person.save()
+            return render(request, "partials/person.html", {"name" : form.cleaned_data["name"]})
+    else:
+        form = PersonForm(user=request.user)
+    return render(request, "partials/create_person_form.html", {"form": form})

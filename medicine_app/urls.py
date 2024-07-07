@@ -7,6 +7,7 @@ urlpatterns = [
     path('medicines-list', views.MedicineList.as_view(), name='medicine_list'),
     path('create-medicine', views.create_medicine, name='create_medicine'),
     path('create-event', views.create_event, name='create_event'),
+    path('create-person', views.create_person, name='create_person'),
     path('delete-medicine/<int:pk>', views.delete_medicine, name='delete_medicine'),
     path('update-medicine/<int:pk>', views.update_medicine, name='update_medicine'),
     path('show-create-form', views.show_create_form, name='show_create_form'),
