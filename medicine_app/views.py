@@ -24,25 +24,32 @@ class MedicineList(ListView):
         return context
     
     def get_queryset(self):
-        return Medicine.objects.all()
+        person_id = self.request.session.get("current_person_id")
+        person = Person.objects.filter(pk=person_id).first()
+
+        return Medicine.objects.filter(person=person)
 
 def index(request):
     return render(request, "index.html", {})
 
 @login_required
-def home(request):
+def home(request, pk=None):
     user = request.user
-    events = MedicineEvent.objects.filter(medicine__person__user=user)
     persons = Person.objects.filter(user=user)
-    # TODO: Clicking on a person should show their medicines and events
-    if (len(persons) == 0):
-        medicines=[]
-    else:
-        medicines = Medicine.objects.filter(person=persons[0])
+
+    person_id = pk or request.session.get("current_person_id")
+    person = persons.filter(pk=person_id).first()
+
+    request.session["current_person_id"] = person_id
+
+    medicines = Medicine.objects.filter(person=person)
+    events = MedicineEvent.objects.filter(medicine__person=person)
+
 
     return render(request, "home.html",
                     {
                         "date": DATE,
+                        "person": person,
                         "persons": persons,
                         "medicines": medicines,
                         "events": events
@@ -50,14 +57,18 @@ def home(request):
 
 
 def create_medicine(request):
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    medicines = Medicine.objects.filter(person=person)
     if request.method == "POST":
         form = MedicineForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, "partials/medicine_list.html", {"medicines": Medicine.objects.all()})
+            medicine = form.save(commit=False)
+            medicine.person = person
+            medicine.save()
     else:
         form = MedicineForm(user=request.user)
-    return render(request, "partials/medicine_list.html", {"medicines": Medicine.objects.all()})
+    return render(request, "partials/medicine_list.html", {"medicines": medicines})
 
 def update_medicine(request, pk):
     medicine = Medicine.objects.get(pk=pk)
@@ -79,43 +90,42 @@ def show_create_form(request):
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
 
 @login_required
-def show_create_event_form(request, day=None):
-    form = MedicineEventForm()
+def show_create_event_form(request, day):
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    form = MedicineEventForm(person=person)
     if day:
         new = DATE.replace(day=day)
         form.fields["date"].initial = new
     else:
         form.fields["date"].initial = DATE
     
-
-    user = request.user
-    events = MedicineEvent.objects.filter(date=new)
+    events = MedicineEvent.objects.filter(person=person, date=new)
     return render(request, "partials/create_event_form.html", {"form": form, "events": events, "date": new})
 
 @login_required
 def create_event(request):
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
     if request.method == "POST":
         form = MedicineEventForm(request.POST)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.person = person
+            event.save()
             med = form.cleaned_data["medicine"]
             doses = form.cleaned_data["doses"]
             med.current_dose += doses
             med.save()
             event_date = form.cleaned_data["date"]
-            events = MedicineEvent.objects.filter(date=event_date)
+            events = MedicineEvent.objects.filter(person=person, date=event_date)
             response = render(request, "partials/day_button.html", {"day": event_date.day, "events": events})
             response['HX-Trigger'] = 'new_med_event'
             return response
     else:
         form = MedicineEventForm()
 
-    user = request.user
-    persons = Person.objects.filter(user=user)
-    if (len(persons) == 0):
-        medicines=[]
-    else:
-        medicines = Medicine.objects.filter(person=persons[0])
+    medicines = Medicine.objects.filter(person=person)
     return render(request, "home.html", {"date": DATE, "medicines": medicines }) 
 
 def view_next_month(request):
@@ -134,7 +144,6 @@ def empty_view(request):
 def create_person(request):
     if (request.POST):
         form = PersonForm(request.POST)
-        print("create person", form.is_valid())
         if form.is_valid():
             person = form.save(commit=False)
             person.user = request.user

@@ -6,15 +6,15 @@ class MedicineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(MedicineForm, self).__init__(*args, **kwargs)
-        if user is not None:
-            self.fields['person'].queryset = user.person_set.all()
+        # if user is not None:
+        #     self.fields['person'].queryset = user.person_set.all()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             # visible.field.widget.attrs['placeholder'] = visible.field.label
 
     class Meta:
         model = Medicine
-        fields = "__all__"
+        fields = ['name', 'doses', 'current_dose']
         labels = {
             'name': _('Namn'),
             'doses': _('Antal doser'),
@@ -24,15 +24,18 @@ class MedicineForm(forms.ModelForm):
 
 class MedicineEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        person = kwargs.pop('person', None)
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             if isinstance(visible.field, forms.ChoiceField):
                 visible.field.empty_label = ""
+        if person is not None:
+            self.fields['medicine'].queryset = Medicine.objects.filter(person=person)
 
     class Meta:
         model = MedicineEvent
-        fields = "__all__"
+        fields = ['medicine', 'date', 'doses']
         labels = {
             'medicine': _('Medicin'),
             'date': _('Datum'),

@@ -5,7 +5,7 @@ ul {list-style-type: none;}
 
 body {
   font-family: 'Poppins', sans-serif !important;
-  background-color: #e9e6e6 !important;
+  /* background-color: #e9e6e6 !important; */
 }
 
 
@@ -18,6 +18,26 @@ body {
 .meditrack-input {
   width: 200px !important;
 }
+
+#main {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.htmx-swapping #main {
+  opacity: 0;
+}
+
+.person {
+  font-size: 30px;
+}
+
+.person-selected {
+  font-size: 45px;
+  color: rgb(97, 185, 137);
+  text-decoration: underline;
+}
+
+
 
 .container-lg {
   margin-left: 50px !important;
@@ -47,22 +67,26 @@ body {
   font-weight: bold !important;
 }
 
-/* .form-floating > label {
-  top: -20px !important;
-}
-
-.form-floating > input {
-  padding: 20px !important;
-} */
-
-.calendar-banner {
-  background-color: rgb(97, 185, 137);
-}
 
 /* Month header */
 .month {
   width: 100%;
   text-align: center;
+}
+
+.active {
+  color: white;
+  background-color: blue; /* Choose your desired background color */
+  border-radius: 50%; /* This makes the background a circle */
+  padding: 12px; /* Adjust padding to control the size of the circle */
+  display: inline-flex; /* This changes the element's box to allow border-radius to take effect */
+  justify-content: center;
+  align-items: center;
+  /* Additional styles to ensure the circle looks good */
+  width: 20px; /* Control width of the circle */
+  height: 20px; /* Control height of the circle */
+  text-align: center; /* Center the text inside the circle */
+  line-height: 20px; /* Adjust line height to vertically center the text in the circle */
 }
 
 /* Month list */
@@ -72,10 +96,10 @@ body {
 }
 
 .month ul li {
-  color: white;
+  /* color: white; */
   font-size: 20px;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
 }
 
 /* Previous button inside month header */
@@ -94,11 +118,11 @@ body {
 .weekdays {
   margin: 0;
   padding: 10px 0;
-  background-color:#ddd;
+  /* background-color: white; */
 }
 
 .weekdays li {
-  color: #666;
+  /* color: #666; */
   text-align: center;
   min-width: 30px;
   display: flex;
@@ -112,7 +136,7 @@ body {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
+  /* gap: 3px; */
   list-style: none;
 }
 
@@ -126,10 +150,16 @@ body {
   align-items: center;
 }
 
+.days p {
+  font-size: 12px;
+}
+
 .days button {
   width: 100%;
   height: 90px;
   padding: 15px;
+  border-radius: 0;
+  background-color: white;
 }
 
 .badge-container {
@@ -140,10 +170,9 @@ body {
 }
 
 .custom-badge {
-  position: absolute;
   border-radius: 50%;
   background-color: rgb(255, 147, 147);
-  margin-right: 5px;
+  margin-right: 3px;
 }
 
 ::view-transition-old(slide-it) {
@@ -191,5 +220,4 @@ body {
   transition: opacity 1s ease-out; */
 
 }
-
 

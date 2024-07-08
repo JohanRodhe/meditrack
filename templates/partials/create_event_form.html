@@ -1,6 +1,19 @@
+<script>
+document.body.addEventListener('htmx:beforeRequest', function(event) {
+  if (event.detail.target.id === 'event-container') {
+    // Assuming you want to change the content of all buttons that could trigger this event
+    // You might need a way to identify the specific button that was clicked
+    // This example assumes there's a way to identify the button (e.g., using a class or data attribute)
+    var ps = document.querySelectorAll('.active');
+    ps.forEach(function(p) {
+      p.classList.remove('active');
+    });
+  }
+});
+</script>
 {% load tz %}
 <div class="fade-me-in fade-me-out">
-  <h3>Händelser</h3>
+  <h4>Händelser</h4>
   <h4>
     {{ date|date:"j F" }}
   </h4>
@@ -13,7 +26,7 @@
   </div>
   {% endfor %}
 </div>
-<h3 class="mt-4 pb-2 fade-me-in">Skapa ny händelse</h3>
+<h4 class="mt-4 pb-2 fade-me-in">Skapa ny händelse</h4>
 <form
   class="mb-0 p-4 bg-white rounded fade-me-in"
   id="create-event-form"
@@ -38,8 +51,15 @@
     class="btn btn-secondary mt-1 px-3"
     hx-get="{% url 'empty_view' %}"
     hx-target="#event-container"
-    hx-swap="swap:1s"
+    hx-swap="swap:0.5s"
   >
     Stäng
   </button>
 </form>
+<p 
+  id="day-{{ date.day }}-p" 
+  class="day active"
+  hx-swap-oob="true"
+>
+  {{ date.day }}
+</p>

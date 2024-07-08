@@ -1,27 +1,27 @@
 {% load templatetags %} {% load tz %} {% block content %}
-<div class="month pt-4 pb-4 calendar-banner rounded-top">
-  <ul class="d-flex align-items-center justify-content-between">
+<div class="month ">
+  <ul class="d-flex align-items-center">
     <button
-      class="prev btn text-white"
-      hx-get="{% url 'view_prev_month' %}"
-      hx-target="#container"
+    class="prev btn"
+    hx-get="{% url 'view_prev_month' %}"
+    hx-target="#container"
     >
-      &#10094;
-    </button>
-    <li class="">
-      {{ date|date:"F" }}<br /><span style="-size: 18px">{{ date.year }}</span>
-    </li>
-    <button
-      class="next btn text-white"
-      hx-get="{% url 'view_next_month' %}"
-      hx-target="#container"
-    >
-      &#10095;
-    </button>
+    &#10094;
+  </button>
+  <button
+  class="next btn"
+  hx-get="{% url 'view_next_month' %}"
+  hx-target="#container"
+  >
+  &#10095;
+</button>
+<li>
+  <span class="mx-1">{{ date|date:"F" }}</span><span style="-size: 18px">{{ date.year }}</span>
+</li>
   </ul>
 </div>
 
-<ul class="weekdays bg-light border-bottom border-dark">
+<ul class="weekdays border-bottom border-dark">
   <li>Måndag</li>
   <li>Tisdag</li>
   <li>Onsdag</li>
@@ -37,23 +37,36 @@
   {% with month=date.month %}
   {% for i in month|get_days_in_month %}
   <li class="position-relative">
-    <button
-      id="day-{{ i }}"
-      class="btn {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}btn-outline-primary{% else %}btn-light{% endif %}"
+    <button id="day-{{ i }}"
+      class="btn btn-light d-flex justify-content-center p-0"
       hx-get="{% url 'show_create_event_form' i %}"
       hx-target="#event-container"
-      hx-swap="settle:1s"
+      hx-swap="settle:0.5s"
     >
-    <div class="badge-container">
-    {% for event in events %}
-    {% if event.date.day == i %}
-      <span class="badge custom-badge">{{ event.medicine.name }}</span>
+    {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
+      <p class="day-current">
+        <strong>{{ i }}</strong>
+      </p>
+      {% else %}
+      <div>
+
+      <p 
+        id="day-{{ i }}-p" 
+        class="day"
+      >
+        {{ i }}
+      </p>
+      </div>
+      <div class="badge-container">
+      {% for event in events %}
+      {% if event.date.day == i %}
+        <span class="badge custom-badge mt-3">{{ event.medicine.name }}</span>
+      {% endif %}
+      {% endfor %}
+      </div>
     {% endif %}
-    {% endfor %}
-    </div>
-      {{ i }}
     </button>
-    {% endfor %} {% endwith %}
+  {% endfor %} {% endwith %}
   </li>
 </ul>
 {% endblock %}
