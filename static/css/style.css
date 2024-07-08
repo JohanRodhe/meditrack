@@ -5,15 +5,9 @@ ul {list-style-type: none;}
 
 body {
   font-family: 'Poppins', sans-serif !important;
-  /* background-color: #e9e6e6 !important; */
+  /* background-color: #f0eded !important; */
 }
 
-
-.my-btn {
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  padding: 4px 8px !important;
-}
 
 .meditrack-input {
   width: 200px !important;
@@ -129,7 +123,9 @@ body {
   justify-content: center;
   align-items: center;
   margin: 10px;
-  font-size: 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .days, .weekdays {
@@ -138,6 +134,10 @@ body {
   grid-template-columns: repeat(7, 1fr);
   /* gap: 3px; */
   list-style: none;
+}
+
+.days {
+  border-left: solid 1px gray;
 }
 
 .days li {
@@ -160,6 +160,9 @@ body {
   padding: 15px;
   border-radius: 0;
   background-color: white;
+  border: solid 1px gray;
+  border-top: none;
+  border-left: none;
 }
 
 .badge-container {
