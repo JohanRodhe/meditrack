@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import MedicineForm, MedicineEventForm, PersonForm
 from .models import Medicine, MedicineEvent, Person
 from accounts.models import User 
@@ -10,7 +10,6 @@ from dateutil.relativedelta import relativedelta
 
 DATE = datetime.datetime.now()
 
-# Create your views here.
 class MedicineList(ListView):
     model = Medicine
     template_name = "partials/medicine_list.html"
@@ -68,7 +67,8 @@ def create_medicine(request):
             medicine.save()
     else:
         form = MedicineForm(user=request.user)
-    return render(request, "partials/medicine_list.html", {"medicines": medicines})
+
+    return redirect('medicine_list')
 
 def update_medicine(request, pk):
     medicine = Medicine.objects.get(pk=pk)
@@ -76,15 +76,15 @@ def update_medicine(request, pk):
         medicine.current_dose = medicine.current_dose + 1
         medicine.save()
 
-
-    return render(request, "partials/medicine_list.html", {"medicines": Medicine.objects.all()})
+    return redirect('medicine_list')
 
 
 @require_http_methods(["DELETE"])
 def delete_medicine(request, pk):
     medicine = Medicine.objects.get(pk=pk)
     medicine.delete()
-    return render(request, 'partials/medicine_list.html', {'medicines': Medicine.objects.all()})
+
+    return redirect('medicine_list')
 
 def show_create_form(request):
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
@@ -131,12 +131,18 @@ def create_event(request):
 def view_next_month(request):
     global DATE
     DATE = DATE + relativedelta(months=+1)
-    return render(request, "partials/calendar.html", {"date": DATE})
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
+    return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
 def view_prev_month(request):
     global DATE
     DATE = DATE + relativedelta(months=-1)
-    return render(request, "partials/calendar.html", {"date": DATE})
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
+    return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
 def empty_view(request):
     return render(request, "partials/empty.html", {})

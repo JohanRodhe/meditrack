@@ -9,17 +9,17 @@
     </div>
     <div class="row align-items-center justify-content-between">
       <div class="col-auto">
-        <button class="btn btn-outline-primary">
+        <!-- <button class="btn btn-outline-primary">
           <i class="fa fa-minus"></i>
-        </button>
+        </button> -->
         {{ medicine.current_dose }} / {{ medicine.doses }}
-        <button
+        <!-- <button
           class="btn btn-outline-primary"
           hx-post="{% url 'update_medicine' medicine.pk %}"
           hx-target="#medicine-list"
         >
           <i class="fa fa-plus"></i>
-        </button>
+        </button> -->
       </div>
       <div class="col-auto">
         <span
