@@ -6,11 +6,14 @@
   hx-swap="settle:0.5s"
 >
 {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
-  <p class="day-current">
+  <p id="day-{{ i }}-p" class="day-current">
     <strong>{{ i }}</strong>
   </p>
 {% else %}
-  <p class="day">
+  <p
+   id="day-{{ i }}-p" 
+   class="day"
+  >
     {{ day }}
   </p>
 {% endif %}

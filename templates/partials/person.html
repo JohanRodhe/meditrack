@@ -1,8 +1,12 @@
 {% load templatetags %}
 {% load tz %}
-<div>
-    <a>
-        <i class="bi bi-person-circle" style="font-size: 40px"></i>
-        {{ name }}
-    </a>
-</div>
+<a 
+  class="nav-link mx-3 d-flex align-items-center" 
+  hx-get="{% url 'home' person.pk %}"
+  hx-target="#main"
+  hx-swap="outerHTML"
+  hx-indicator="#spinner"
+>
+  <i class="bi bi-person-circle person"></i>
+  <span class="ms-2">{{ person.name }}</span>
+</a>

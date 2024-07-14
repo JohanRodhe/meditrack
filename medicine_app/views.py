@@ -55,6 +55,7 @@ def home(request, pk=None):
                     })
 
 
+@login_required
 def create_medicine(request):
     person_id = request.session.get("current_person_id")
     person = Person.objects.filter(pk=person_id).first()
@@ -70,6 +71,7 @@ def create_medicine(request):
 
     return redirect('medicine_list')
 
+@login_required
 def update_medicine(request, pk):
     medicine = Medicine.objects.get(pk=pk)
     if request.method == "POST":
@@ -109,6 +111,7 @@ def create_event(request):
     person = Person.objects.filter(pk=person_id).first()
     if request.method == "POST":
         form = MedicineEventForm(request.POST)
+        # TODO - place logic and validation in form and model classes
         if form.is_valid():
             event = form.save(commit=False)
             event.person = person
@@ -128,6 +131,7 @@ def create_event(request):
     medicines = Medicine.objects.filter(person=person)
     return render(request, "home.html", {"date": DATE, "medicines": medicines }) 
 
+@login_required
 def view_next_month(request):
     global DATE
     DATE = DATE + relativedelta(months=+1)
@@ -136,6 +140,7 @@ def view_next_month(request):
     events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
     return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
+@login_required
 def view_prev_month(request):
     global DATE
     DATE = DATE + relativedelta(months=-1)
@@ -147,6 +152,7 @@ def view_prev_month(request):
 def empty_view(request):
     return render(request, "partials/empty.html", {})
 
+@login_required
 def create_person(request):
     if (request.POST):
         form = PersonForm(request.POST)
