@@ -6,20 +6,7 @@
   </a>
     <div id="person-list" class="d-flex mb-2">
     {% for p in persons %}
-      <a 
-        class="nav-link mx-3 d-flex align-items-center" 
-        hx-get="{% url 'home' p.pk %}"
-        hx-target="#main"
-        hx-swap="outerHTML"
-        hx-indicator="#spinner"
-      >
-      {% if person.pk == p.pk %}
-        <i class="bi bi-person-circle person-selected"></i>
-      {% else %}
-        <i class="bi bi-person-circle person"></i>
-      {% endif %}
-        <span class="ms-2">{{ p.name }}</span>
-      </a>
+      {% include 'partials/person.html' with person=p current=person %}
     {% endfor %}
     </div>
     <button

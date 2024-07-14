@@ -160,7 +160,8 @@ def create_person(request):
             person = form.save(commit=False)
             person.user = request.user
             person.save()
-            return render(request, "partials/person.html", {"name" : form.cleaned_data["name"]})
+            request.session["current_person_id"] = person.pk
+            return render(request, "partials/person.html", {"person": person})
     else:
         form = PersonForm(user=request.user)
     return render(request, "partials/create_person_form.html", {"form": form})

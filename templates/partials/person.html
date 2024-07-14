@@ -7,6 +7,10 @@
   hx-swap="outerHTML"
   hx-indicator="#spinner"
 >
-  <i class="bi bi-person-circle person"></i>
-  <span class="ms-2">{{ person.name }}</span>
+    {% if person.pk == current.pk %}
+      <i class="bi bi-person-circle person-selected"></i>
+    {% else %}
+      <i class="bi bi-person-circle person"></i>
+    {% endif %}
+      <span class="ms-2">{{ person.name }}</span>
 </a>
