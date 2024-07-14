@@ -42,7 +42,7 @@ def home(request, pk=None):
     request.session["current_person_id"] = person_id
 
     medicines = Medicine.objects.filter(person=person)
-    events = MedicineEvent.objects.filter(medicine__person=person)
+    events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
 
 
     return render(request, "home.html",

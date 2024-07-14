@@ -9,14 +9,16 @@
   <p class="day-current">
     <strong>{{ i }}</strong>
   </p>
-  {% else %}
+{% else %}
   <p class="day">
     {{ day }}
   </p>
+{% endif %}
   <div class="badge-container">
   {% for event in events %}
-    <span class="badge custom-badge mt-3">{{ event.medicine.name }}</span>
+    {% if event.date.day == day %}
+      <span class="badge custom-badge">{{ event.medicine.name }}</span>
+    {% endif %}
   {% endfor %}
   </div>
-{% endif %}
 </button>

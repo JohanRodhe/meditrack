@@ -37,35 +37,9 @@
   {% with month=date.month %}
   {% for i in month|get_days_in_month %}
   <li class="position-relative">
-    <button id="day-{{ i }}"
-      class="btn btn-light d-flex justify-content-center p-0"
-      hx-get="{% url 'show_create_event_form' i %}"
-      hx-target="#event-container"
-      hx-swap="settle:0.5s"
-    >
-    {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
-      <p class="day-current">
-        <strong>{{ i }}</strong>
-      </p>
-      {% else %}
-      <div>
-
-      <p 
-        id="day-{{ i }}-p" 
-        class="day"
-      >
-        {{ i }}
-      </p>
-      </div>
-      <div class="badge-container">
-      {% for event in events %}
-      {% if event.date.day == i %}
-        <span class="badge custom-badge mt-3">{{ event.medicine.name }}</span>
-      {% endif %}
-      {% endfor %}
-      </div>
-    {% endif %}
-    </button>
+    {% with day=i %}
+        {% include "partials/day_button.html" with events=events day=day %}
+    {% endwith %}
   {% endfor %} {% endwith %}
   </li>
 </ul>

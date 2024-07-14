@@ -168,6 +168,8 @@ body {
 .badge-container {
   position: absolute;
   display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
   top: 5px;
   left: 5px;
 }
@@ -176,6 +178,9 @@ body {
   border-radius: 50%;
   background-color: rgb(255, 147, 147);
   margin-right: 3px;
+  font-size: 12px;
+  font-weight: 500 !important;
+  margin-bottom: 4px;
 }
 
 ::view-transition-old(slide-it) {
