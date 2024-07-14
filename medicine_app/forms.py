@@ -44,7 +44,22 @@ class MedicineEventForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }
+    
+    def clean_person(self):
+        data = self.cleaned_data['person']
+        return data
 
+    def clean_medicine(self):
+        data = self.cleaned_data['medicine']
+        return data
+    
+    def clean_date(self):
+        data = self.cleaned_data['date']
+        return data
+    
+    def clean_doses(self):
+        data = self.cleaned_data['doses']
+        return data
 
 class PersonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

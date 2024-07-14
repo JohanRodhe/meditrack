@@ -54,6 +54,14 @@ class MedicineEvent(models.Model):
     def __str__(self):
         return self.medicine.name
 
+    @classmethod
+    def create_event(cls, person, medicine, date, doses):
+        event = cls(person=person, medicine=medicine, date=date, doses=doses)
+        event.save()
+        medicine.current_dose += doses
+        medicine.save()
+        return event
+
 class OtherEvent(models.Model):
     """
     Represents an event other than medication in the application.

@@ -111,18 +111,11 @@ def create_event(request):
     person = Person.objects.filter(pk=person_id).first()
     if request.method == "POST":
         form = MedicineEventForm(request.POST)
-        # TODO - place logic and validation in form and model classes
         if form.is_valid():
             event = form.save(commit=False)
-            event.person = person
-            event.save()
-            med = form.cleaned_data["medicine"]
-            doses = form.cleaned_data["doses"]
-            med.current_dose += doses
-            med.save()
-            event_date = form.cleaned_data["date"]
-            events = MedicineEvent.objects.filter(person=person, date=event_date)
-            response = render(request, "partials/day_button.html", {"day": event_date.day, "events": events})
+            MedicineEvent.create_event(person, event.medicine, event.date, event.doses)
+            events = MedicineEvent.objects.filter(person=person, date=event.date)
+            response = render(request, "partials/day_button.html", {"day": event.date.day, "events": events})
             response['HX-Trigger'] = 'new_med_event'
             return response
     else:
