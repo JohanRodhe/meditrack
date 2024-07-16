@@ -32,7 +32,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-l57nnbvkkm)l67
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'True'
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['meditrack-production.up.railway.app', '127.0.0.1', 'localhost']
+
+## For example, for a site URL is at 'web-production-3640.up.railway.app'
+## (replace the string below with your own site URL):
+CSRF_TRUSTED_ORIGINS = ['https://meditrack-production.up.railway.app']
 
 
 # Application definition
