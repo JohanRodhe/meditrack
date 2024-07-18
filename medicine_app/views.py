@@ -33,17 +33,18 @@ def index(request):
 
 @login_required
 def home(request, pk=None):
+    print(pk)
     user = request.user
     persons = Person.objects.filter(user=user)
 
     person_id = pk or request.session.get("current_person_id")
     person = persons.filter(pk=person_id).first()
+    print(person)
 
     request.session["current_person_id"] = person_id
 
     medicines = Medicine.objects.filter(person=person)
     events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
-
 
     return render(request, "home.html",
                     {

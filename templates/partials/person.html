@@ -1,11 +1,13 @@
 {% load templatetags %}
 {% load tz %}
+<li class="nav-item">
 <a 
   class="nav-link mx-3 d-flex align-items-center" 
   hx-get="{% url 'home' person.pk %}"
   hx-target="#main"
   hx-swap="outerHTML"
   hx-indicator="#spinner"
+  href="#"
 >
     {% if person.pk == current.pk %}
       <i class="bi bi-person-circle person-selected"></i>
@@ -14,3 +16,4 @@
     {% endif %}
       <span class="ms-2">{{ person.name }}</span>
 </a>
+</li>

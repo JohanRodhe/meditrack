@@ -5,8 +5,6 @@
     hx-swap="beforeend"
 >
     {% csrf_token %} 
-    <div class="row">
-        <div class="col p-0">
             {% for field in form %}
             <div class="form-floating position-relative">
                 <input
@@ -20,20 +18,19 @@
                 </label>
             </div>
             {% endfor %}
-        </div>
-        <div class="col d-flex p-0 m-0">
-            <button type="submit" value="Save" class="btn btn-primary m-0">
+            <div class="mt-1">
+
+            <button type="submit" value="Save" class="btn btn-primary">
                  Spara
             </button>
             <button
                 type="button"
-                class="btn btn-secondary m-0"
+                class="btn btn-secondary"
                 hx-get="{% url 'empty_view' %}"
                 hx-target="#person_form_container"
                 hx-swap="innerHTML"
             >
                  Avbryt
             </button>
-        </div>
-    </div>
+            </div>
 </form>

@@ -1,5 +1,5 @@
 <form
-  class="mb-4 p-4 bg-white rounded"
+  class="rounded"
   id="create-medicine-form"
   hx-post="{% url 'create_medicine' %}"
   hx-target="#medicine-list"
@@ -7,7 +7,7 @@
 >
   {% csrf_token %} 
   {% for field in form %}
-  <div class="form-floating mb-4 position-relative">
+  <div class="form-floating mb-2 position-relative">
     {{ field }}
     <label for="{{ field.id_for_label }}" class="form-label"
       >{{ field.label }}</label
