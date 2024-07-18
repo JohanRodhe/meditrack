@@ -20,7 +20,11 @@
   <div class="badge-container">
   {% for event in events %}
     {% if event.date.day == day %}
-      <span class="badge custom-badge">{{ event.medicine.name }}</span>
+      <span class="badge custom-badge">
+        <p>
+          {{ event.medicine.name }}
+        </p>
+      </span>
     {% endif %}
   {% endfor %}
   </div>
