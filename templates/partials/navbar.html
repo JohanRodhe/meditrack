@@ -8,7 +8,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <div id="person-list" class="d-flex mb-2 dropdown">
+    <div id="person-list" class="d-flex mb-2 ms-auto">
    <ul class="nav nav-item">
     {% for p in persons %}
       {% include 'partials/person.html' with person=p current=person %}

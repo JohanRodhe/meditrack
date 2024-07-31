@@ -78,6 +78,10 @@ button.htmx-request {
   transition: opacity 250ms linear;
 }
 
+.hide-on-request.htmx-request {
+  display: none;
+}
+
 .custom-bold {
   font-weight: bold !important;
 }

@@ -1,5 +1,5 @@
 <form
-  class="rounded"
+  class="rounded hide-on-request"
   id="create-medicine-form"
   hx-post="{% url 'create_medicine' %}"
   hx-target="#medicine-list"
@@ -22,6 +22,8 @@
     class="btn btn-secondary mt-2 p-2 px-3"
     hx-get="{% url 'empty_view' %}"
     hx-target="#medicine-form-container"
+    hx-swap="innerHTML"
+    hx-indicator="#medicine-form-container"
   >
     Avbryt
   </button>
