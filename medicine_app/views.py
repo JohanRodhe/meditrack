@@ -33,13 +33,11 @@ def index(request):
 
 @login_required
 def home(request, pk=None):
-    print(pk)
     user = request.user
     persons = Person.objects.filter(user=user)
 
     person_id = pk or request.session.get("current_person_id")
     person = persons.filter(pk=person_id).first()
-    print(person)
 
     request.session["current_person_id"] = person_id
 
@@ -90,6 +88,8 @@ def delete_medicine(request, pk):
     return redirect('medicine_list')
 
 def show_create_form(request):
+    import time
+    time.sleep(0.3)
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
 
 @login_required
@@ -144,6 +144,8 @@ def view_prev_month(request):
     return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
 def empty_view(request):
+    import time
+    time.sleep(2)
     return render(request, "partials/empty.html", {})
 
 @login_required
