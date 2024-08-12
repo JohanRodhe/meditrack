@@ -63,6 +63,7 @@ body {
   display: none;
   color: white;
 }
+
 .htmx-request .htmx-indicator{
     display:inline;
 }
