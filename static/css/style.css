@@ -59,15 +59,27 @@ body {
 }
 
 
-.htmx-indicator{
-    display:none;
-    color: white;
+.htmx-indicator {
+  display: none;
+  color: white;
 }
-.htmx-request .htmx-indicator{
-    display:inline;
+
+.htmx-request .htmx-indicator {
+  display:inline;
 }
-.htmx-request.htmx-indicator{
-    display:inline;
+
+.htmx-request > .button-text {
+  display: none;
+}
+
+button.htmx-request {
+  opacity: .5;
+  background-color: var(--bs-primary);
+  transition: opacity 250ms linear;
+}
+
+.hide-on-request.htmx-request {
+  display: none;
 }
 
 .custom-bold {
@@ -248,9 +260,6 @@ body {
 .fade-me-out.htmx-swapping {
   animation: fade-out 0.5s, slide-to-right 0.5s;
   animation-fill-mode: forwards;
-  /* opacity: 0;
-  transition: opacity 1s ease-out; */
-
 }
 
 @media (max-width: 600px) {
