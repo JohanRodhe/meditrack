@@ -32,13 +32,15 @@ def index(request):
 
 @login_required
 def home(request, pk=None):
-    print(pk)
     user = request.user
     persons = Person.objects.filter(user=user)
 
     person_id = pk or request.session.get("current_person_id")
+
+    if person_id is None and persons.exists():
+        person_id = persons.first().pk
+    
     person = persons.filter(pk=person_id).first()
-    print(person)
 
     request.session["current_person_id"] = person_id
 
@@ -59,7 +61,6 @@ def home(request, pk=None):
 def create_medicine(request):
     person_id = request.session.get("current_person_id")
     person = Person.objects.filter(pk=person_id).first()
-    medicines = Medicine.objects.filter(person=person)
     if request.method == "POST":
         form = MedicineForm(request.POST)
         if form.is_valid():
