@@ -1,0 +1,21 @@
+databases:
+  - name: meditrackdb
+    plan: free
+    databaseName: meditrack
+    user: meditrack
+
+services:
+  - type: web
+    plan: free
+    name: meditrack
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn meditrack.asgi:application -k uvicorn.workers.UvicornWorker"    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: meditrackdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
