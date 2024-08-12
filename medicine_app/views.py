@@ -36,6 +36,10 @@ def home(request, pk=None):
     persons = Person.objects.filter(user=user)
 
     person_id = pk or request.session.get("current_person_id")
+
+    if person_id is None and persons.exists():
+        person_id = persons.first().pk
+    
     person = persons.filter(pk=person_id).first()
 
     request.session["current_person_id"] = person_id
