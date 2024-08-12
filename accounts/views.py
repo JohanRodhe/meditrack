@@ -7,11 +7,8 @@ from accounts.forms import UserRegisterForm
 from django.contrib.auth.views import LoginView
 
 def register(request):
-    print(request.method)
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
-        print(request.POST.dict())
-        print(form.errors.as_data())
         if form.is_valid():
             form.save()
             messages.success(

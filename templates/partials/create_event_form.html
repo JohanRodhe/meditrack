@@ -11,7 +11,9 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
   }
 });
 </script>
+
 {% load tz %}
+{% load static %}
 <div class="fade-me-in fade-me-out">
   <h4>Händelser</h4>
   <h4>
@@ -44,7 +46,15 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
   </div>
   {% endfor %}
   <button type="submit" value="Save" class="btn btn-primary mt-1 px-3">
-    Spara
+      <div class="button-text">
+        <i class="fa fa-plus"></i>
+        Spara
+      </div>
+      <img
+        id="spinner"
+        class="htmx-indicator"
+        src="{% static '785.svg' %}"
+      />
   </button>
   <button
     type="button"

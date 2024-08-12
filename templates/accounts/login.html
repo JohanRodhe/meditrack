@@ -7,7 +7,7 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <form class="form-signin" autocomplete="off" hx-indicator="#spinner">
+      <form class="form-signin" autocomplete="off">
         {% csrf_token %} {% for field in form %}
         <div class="form-floating mb-4 position-relative">
           <input
@@ -33,15 +33,16 @@
             hx-post="{% url 'login' %}"
             hx-target="#main"
             hx-swap="outerHTML"
-            hx-indicator="#spinner"
             type="submit"
           >
-            <span>Logga in</span>
-            <img
-              id="spinner"
-              class="htmx-indicator"
-              src="{% static '785.svg' %}"
-            />
+      <div class="button-text">
+        Logga in
+      </div>
+      <img
+        id="spinner"
+        class="htmx-indicator"
+        src="{% static '785.svg' %}"
+      />
           </button>
         </div>
       </form>

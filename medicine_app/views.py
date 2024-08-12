@@ -58,7 +58,6 @@ def home(request, pk=None):
 def create_medicine(request):
     person_id = request.session.get("current_person_id")
     person = Person.objects.filter(pk=person_id).first()
-    medicines = Medicine.objects.filter(person=person)
     if request.method == "POST":
         form = MedicineForm(request.POST)
         if form.is_valid():
@@ -88,8 +87,6 @@ def delete_medicine(request, pk):
     return redirect('medicine_list')
 
 def show_create_form(request):
-    import time
-    time.sleep(0.3)
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
 
 @login_required
@@ -144,8 +141,6 @@ def view_prev_month(request):
     return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
 def empty_view(request):
-    import time
-    time.sleep(2)
     return render(request, "partials/empty.html", {})
 
 @login_required
