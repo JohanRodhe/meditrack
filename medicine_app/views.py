@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
 from .forms import MedicineForm, MedicineEventForm, PersonForm
 from .models import Medicine, MedicineEvent, Person
-from accounts.models import User 
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods 
 from django.contrib.auth.decorators import login_required
