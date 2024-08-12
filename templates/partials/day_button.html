@@ -17,10 +17,10 @@
     {{ day }}
   </p>
 {% endif %}
-  <div class="badge-container">
+  <div id="day-{{ day }}-events" class="badge-container">
   {% for event in events %}
     {% if event.date.day == day %}
-      <span class="badge custom-badge">
+      <span id="event-badge-{{ event.date.day }}" class="badge custom-badge">
         <p>
           {{ event.medicine.name }}
         </p>

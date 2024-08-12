@@ -1,0 +1,19 @@
+  <div class="card mt-1">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <h5 class="card-title">{{ event.medicine }}</h5>
+                <p class="card-text">{{ event.doses }} dos(er)</p>
+            </div>
+            <div class="col-4">
+                <button
+                    class="btn btn-outline-danger"
+                    hx-delete="{% url 'delete_event' event.pk %}"
+                    hx-target="#event-badge-{{ date.day }}"
+                >
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
