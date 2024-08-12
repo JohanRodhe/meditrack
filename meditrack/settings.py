@@ -26,13 +26,20 @@ load_dotenv(ENV_PATH)
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-l57nnbvkkm)l67#=b468v7lsam5sf5@zjf-fh9e5kyr2(mzjeu')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-l57nnbvkkm)l67#=b468v7lsam5sf5@zjf-fh9e5kyr2(mzjeu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv('DJANGO_DEBUG', '') != 'True'
+DEBUG = 'RENDER' not in os.environ
 
 
-ALLOWED_HOSTS = ['meditrack-production.up.railway.app', '127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['meditrack-production.up.railway.app', '127.0.0.1', 'localhost']
+# https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = []
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 ## For example, for a site URL is at 'web-production-3640.up.railway.app'
 ## (replace the string below with your own site URL):
