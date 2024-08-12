@@ -63,17 +63,14 @@ body {
     display:none;
     color: white;
 }
+
 .htmx-request .htmx-indicator{
-    display:inline;
-}
-.htmx-request.htmx-indicator{
     display:inline;
 }
 
 .custom-bold {
   font-weight: bold !important;
 }
-
 
 /* Month header */
 .month {
