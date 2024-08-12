@@ -29,7 +29,7 @@ load_dotenv(ENV_PATH)
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-l57nnbvkkm)l67#=b468v7lsam5sf5@zjf-fh9e5kyr2(mzjeu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', '') != 'True'
+# DEBUG = os.getenv('DJANGO_DEBUG', '') != 'True'
 
 
 ALLOWED_HOSTS = ['meditrack-production.up.railway.app', '127.0.0.1', 'localhost']
