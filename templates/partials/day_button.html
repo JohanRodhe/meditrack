@@ -10,22 +10,24 @@
     <strong>{{ i }}</strong>
   </p>
 {% else %}
+<div id="selected-day-{{ i }}">
   <p
    id="day-{{ i }}-p" 
    class="day"
   >
     {{ day }}
   </p>
+</div>
 {% endif %}
   <div id="day-{{ day }}-events" class="badge-container">
-  {% for event in events %}
-    {% if event.date.day == day %}
-      <span id="event-badge-{{ event.date.day }}" class="badge custom-badge">
-        <p>
-          {{ event.medicine.name }}
-        </p>
-      </span>
-    {% endif %}
-  {% endfor %}
+    {% for event in events %}
+      {% if event.date.day == day %}
+        <span id="event-badge-{{ event.date.day }}" class="badge custom-badge">
+          <p>
+            {{ event.medicine.name }}
+          </p>
+        </span>
+      {% endif %}
+    {% endfor %}
   </div>
 </button>

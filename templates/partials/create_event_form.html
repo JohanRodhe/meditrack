@@ -4,9 +4,9 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
     // Assuming you want to change the content of all buttons that could trigger this event
     // You might need a way to identify the specific button that was clicked
     // This example assumes there's a way to identify the button (e.g., using a class or data attribute)
-    var ps = document.querySelectorAll('.active');
+    var ps = document.querySelectorAll('.selected-day');
     ps.forEach(function(p) {
-      p.classList.remove('active');
+      p.classList.remove('selected-day');
     });
   }
 });
@@ -60,11 +60,16 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
     Stäng
   </button>
 </form>
-
-<p 
-  id="day-{{ date.day }}-p" 
-  class="day active"
-  hx-swap-oob="true"
+<div
+    id="selected-day-{{ date.day }}"
+    class="selected-day" 
+    hx-swap-oob="true"
 >
-  {{ date.day }}
-</p>
+  <p
+   id="day-{{ date.day }}-p" 
+   class="day"
+  >
+    {{ date.day }}
+  </p>
+</div>
+
