@@ -64,8 +64,8 @@ body {
   color: white;
 }
 
-.htmx-request .htmx-indicator {
-  display:inline;
+.htmx-request .htmx-indicator{
+    display:inline;
 }
 
 .htmx-request > .button-text {
@@ -85,7 +85,6 @@ button.htmx-request {
 .custom-bold {
   font-weight: bold !important;
 }
-
 
 /* Month header */
 .month {
