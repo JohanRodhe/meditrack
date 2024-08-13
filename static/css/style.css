@@ -44,10 +44,7 @@ body {
 
 .nav-link {
   color: black !important;
-
 }
-
-
 
 .container-lg {
   margin-left: 50px !important;
@@ -57,7 +54,6 @@ body {
 .logo {
   color: rgb(255, 0, 0);
 }
-
 
 .htmx-indicator {
   display: none;
@@ -92,19 +88,9 @@ button.htmx-request {
   text-align: center;
 }
 
-.active {
-  color: white;
-  background-color: blue; /* Choose your desired background color */
-  border-radius: 50%; /* This makes the background a circle */
-  padding: 12px; /* Adjust padding to control the size of the circle */
-  display: inline-flex; /* This changes the element's box to allow border-radius to take effect */
-  justify-content: center;
-  align-items: center;
-  /* Additional styles to ensure the circle looks good */
-  width: 20px; /* Control width of the circle */
-  height: 20px; /* Control height of the circle */
-  text-align: center; /* Center the text inside the circle */
-  line-height: 20px; /* Adjust line height to vertically center the text in the circle */
+.selected-day {
+  background-color: lightgray;
+  width: 100%;
 }
 
 /* Month list */
@@ -136,11 +122,9 @@ button.htmx-request {
 .weekdays {
   margin: 0;
   padding: 10px 0;
-  /* background-color: white; */
 }
 
 .weekdays li {
-  /* color: #666; */
   text-align: center;
   min-width: 30px;
   display: flex;
@@ -156,7 +140,6 @@ button.htmx-request {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  /* gap: 3px; */
   list-style: none;
 }
 
@@ -176,6 +159,10 @@ button.htmx-request {
 
 .days p {
   font-size: 12px;
+}
+
+.day {
+  letter-spacing: 1px;
 }
 
 .days button {

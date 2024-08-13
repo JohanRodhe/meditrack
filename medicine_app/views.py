@@ -174,7 +174,7 @@ def view_prev_month(request):
     return render(request, "partials/calendar.html", {"date": DATE, "events": events})
 
 def empty_view(request):
-    return render(request, "partials/empty.html", {})
+    return HttpResponse(status=200)
 
 @login_required
 def create_person(request):
