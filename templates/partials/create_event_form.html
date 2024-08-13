@@ -15,26 +15,20 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
 {% load tz %}
 {% load static %}
 <div class="fade-me-in fade-me-out">
-  <h4>Händelser</h4>
-  <h4>
-    {{ date|date:"j F" }}
-  </h4>
-  {% for event in events %}
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{{ event.medicine }}</h5>
-      <p class="card-text">{{ event.doses }}</p>
-    </div>
+  <div id="event-list"
+        hx-get="{% url 'show_events' date %}"
+        hx-trigger="new_med_event from:body"
+        >
+    {% include "partials/event_list.html" %}
   </div>
-  {% endfor %}
 </div>
 <h4 class="mt-4 pb-2 fade-me-in">Skapa ny</h4>
 <form
   class="mb-0 bg-white rounded fade-me-in"
   id="create-event-form"
   hx-post="{% url 'create_event' %}"
-  hx-target="#day-{{ date.day }}"
-  hx-swap="outerHTML"
+  hx-target="#day-{{ date.day }}-events"
+  hx-swap="beforeend"
   hx-on::after-request="this.reset();"
 >
   {% csrf_token %} {% for field in form %}
@@ -66,6 +60,7 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
     Stäng
   </button>
 </form>
+
 <p 
   id="day-{{ date.day }}-p" 
   class="day active"

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from .forms import MedicineForm, MedicineEventForm, PersonForm
 from .models import Medicine, MedicineEvent, Person
@@ -6,6 +7,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 import datetime
 from dateutil.relativedelta import relativedelta
+import json
 
 DATE = datetime.datetime.now()
 
@@ -26,6 +28,14 @@ class MedicineList(ListView):
         person = Person.objects.filter(pk=person_id).first()
 
         return Medicine.objects.filter(person=person)
+
+def show_events(request, date):
+    date_str = date.split(' ')[0]
+    date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    events = MedicineEvent.objects.filter(person=person, date__day=date_obj.day)
+    return render(request, "partials/event_list.html", {"date": date_obj, "events": events})
 
 def index(request):
     return render(request, "index.html", {})
@@ -115,15 +125,35 @@ def create_event(request):
         if form.is_valid():
             event = form.save(commit=False)
             MedicineEvent.create_event(person, event.medicine, event.date, event.doses)
-            events = MedicineEvent.objects.filter(person=person, date=event.date)
-            response = render(request, "partials/day_button.html", {"day": event.date.day, "events": events})
-            response['HX-Trigger'] = 'new_med_event'
+            response = render(request, "partials/event_badge.html", {"day": event.date.day, "event": event})
+
+            new_med_event = {
+                "new_med_event": event.date.strftime("%Y-%m-%d")
+            }
+            response['HX-Trigger'] = json.dumps(new_med_event)
             return response
     else:
         form = MedicineEventForm()
 
     medicines = Medicine.objects.filter(person=person)
     return render(request, "home.html", {"date": DATE, "medicines": medicines }) 
+
+@login_required
+def delete_event(request, pk):
+    event = MedicineEvent.objects.get(pk=pk)
+    medicine = event.medicine
+    if event is not None:
+        event.delete()
+        medicine.current_dose = medicine.current_dose - event.doses
+        medicine.save()
+        response = HttpResponse(status=200)
+        new_med_event = {
+            "new_med_event": event.date.strftime("%Y-%m-%d")
+        }
+        response['HX-Trigger'] = json.dumps(new_med_event)
+        return response
+
+    return redirect('home')
 
 @login_required
 def view_next_month(request):

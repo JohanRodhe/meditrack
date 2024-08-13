@@ -193,7 +193,7 @@ button.htmx-request {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 15px;
   top: 5px;
   width: 100%;
 }
@@ -290,4 +290,10 @@ button.htmx-request {
   .days ul {
     margin-bottom: 2rem;
   }
+}
+
+h4 {
+  font-weight: 450 !important;
+  font-size: 20px !important;
+  letter-spacing: 1px;
 }
