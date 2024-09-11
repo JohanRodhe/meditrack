@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from .forms import MedicineForm, MedicineEventForm, PersonForm
-from .models import Medicine, MedicineEvent, Person
+from .forms import MedicineForm, MedicineEventForm, MedicineReminderForm, PersonForm
+from .models import Medicine, MedicineEvent, MedicineReminder, Person
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods 
 from django.contrib.auth.decorators import login_required
@@ -57,13 +57,16 @@ def home(request, pk=None):
     medicines = Medicine.objects.filter(person=person)
     events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
 
+    reminders = MedicineReminder.objects.all()
     return render(request, "home.html",
                     {
                         "date": DATE,
                         "person": person,
                         "persons": persons,
                         "medicines": medicines,
-                        "events": events
+                        "events": events,
+                        "reminder_form": MedicineReminderForm(person=person),
+                        "reminders": reminders
                     })
 
 
@@ -189,3 +192,18 @@ def create_person(request):
     else:
         form = PersonForm(user=request.user)
     return render(request, "partials/create_person_form.html", {"form": form})
+
+@login_required
+def create_medicine_reminder(request):
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    if request.method == "POST":
+        form = MedicineReminderForm(request.POST)
+        if form.is_valid():
+            reminder = form.save(commit=False)
+            reminder.save()
+            return render(request, "partials/reminder.html", {"reminder": reminder})
+    else:
+        form = MedicineReminderForm(person=person)
+
+    return render(request, "partials/create_medicine_reminder_form.html", {"form": form})

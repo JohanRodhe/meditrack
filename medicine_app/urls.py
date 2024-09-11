@@ -9,6 +9,7 @@ urlpatterns = [
     path('show-events/<str:date>', views.show_events, name='show_events'),
     path('create-medicine', views.create_medicine, name='create_medicine'),
     path('create-event', views.create_event, name='create_event'),
+    path('create-medicine-reminder', views.create_medicine_reminder, name='create_medicine_reminder'),
     path('delete-event/<int:pk>', views.delete_event, name='delete_event'),
     path('create-person', views.create_person, name='create_person'),
     path('delete-medicine/<int:pk>', views.delete_medicine, name='delete_medicine'),

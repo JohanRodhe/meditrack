@@ -1,16 +1,14 @@
 from django import forms
-from .models import Medicine, MedicineEvent, Person
+from .models import Medicine, MedicineEvent, MedicineReminder, Person
 from django.utils.translation import gettext_lazy as _
 
 class MedicineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(MedicineForm, self).__init__(*args, **kwargs)
-        # if user is not None:
-        #     self.fields['person'].queryset = user.person_set.all()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-            # visible.field.widget.attrs['placeholder'] = visible.field.label
+            visible.field.widget.attrs['placeholder'] = ''
 
     class Meta:
         model = Medicine
@@ -21,6 +19,25 @@ class MedicineForm(forms.ModelForm):
             'current_dose': _('Nuvarande dos'),
         }
 
+class MedicineReminderForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        person = kwargs.pop('person', None)
+        super().__init__(*args, **kwargs)
+        if person is not None:
+            self.fields['medicine'].queryset = Medicine.objects.filter(person=person)
+
+    class Meta:
+        model = MedicineReminder
+        fields = ['medicine', 'time', 'active']
+        labels = {
+            'medicine': _('Medicin'),
+            'time': _('Tid'),
+            'active': _('Aktiv'),
+        }
+        widgets = {
+            'medicine': forms.Select(attrs={'class': 'form-control'}),
+            'time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+        }
 
 class MedicineEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -28,6 +45,7 @@ class MedicineEventForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['placeholder'] = ''
             if isinstance(visible.field, forms.ChoiceField):
                 visible.field.empty_label = ""
         if person is not None:

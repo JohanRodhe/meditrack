@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -22,6 +23,7 @@ class Medicine(models.Model):
         name (str): The name of the medicine.
         doses (int): The total number of doses for the medicine.
         current_dose (int): The current dose of the medicine.
+        reminder (bool): Whether the user should be reminded to take the medicine.
 
     Methods:
         __str__(): Returns a string representation of the medicine.
@@ -33,6 +35,22 @@ class Medicine(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+class MedicineReminder(models.Model):
+    """
+    Represents a reminder for a medicine. Creates notifications for the user to take the medicine.
+    
+    Attributes:
+        medicine (Medicine): The medicine associated with the reminder.
+        time (TimeField): The time of the reminder.
+        active (bool): Whether the reminder is active.
+        days (list): The days of the week the reminder is active.
+
+    """
+
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    time = models.TimeField()
+    active = models.BooleanField()
 
 class MedicineEvent(models.Model):
     """

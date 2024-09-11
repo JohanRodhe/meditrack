@@ -31,6 +31,13 @@
   </div>
   <div id="event-container" class="col-md-2 fade-me-out">
   </div>
+  <div id="reminder-form-container" class="hide-on-request">
+  {% include "partials/create_medicine_reminder_form.html" %}
+  <div id="medicine-reminder-list">
+    {% for reminder in reminders %}
+    {% include "partials/reminder.html" %}
+    {% endfor %}
+  </div>
   {% else %}
   <div class="col-md-6">
     <div class="alert alert-warning" role="alert">

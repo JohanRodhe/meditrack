@@ -5,20 +5,20 @@
   hx-target="#event-container"
   hx-swap="settle:0.5s"
 >
+<div id="selected-day-{{ i }}">
 {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
   <p id="day-{{ i }}-p" class="day-current">
-    <strong>{{ i }}</strong>
+    <strong>{{ day }}</strong>
   </p>
 {% else %}
-<div id="selected-day-{{ i }}">
   <p
    id="day-{{ i }}-p" 
    class="day"
   >
     {{ day }}
   </p>
-</div>
 {% endif %}
+</div>
   <div id="day-{{ day }}-events" class="badge-container">
     {% for event in events %}
       {% if event.date.day == day %}
