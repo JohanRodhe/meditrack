@@ -57,7 +57,8 @@ def home(request, pk=None):
     medicines = Medicine.objects.filter(person=person)
     events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
 
-    reminders = MedicineReminder.objects.all()
+    # filter so that the reminders are only for the medicines of the current person
+    reminders = MedicineReminder.objects.filter(active=True, medicine__person=person)
     return render(request, "home.html",
                     {
                         "date": DATE,

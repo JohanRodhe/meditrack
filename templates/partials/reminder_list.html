@@ -1,0 +1,5 @@
+{% for reminder in reminders %}
+    <div>
+        {% include "partials/reminder.html" with reminder=reminder %}
+    </div>
+{% endfor %}

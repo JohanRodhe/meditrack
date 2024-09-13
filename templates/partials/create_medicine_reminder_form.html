@@ -4,7 +4,7 @@ Skapa påminnelse
   class="hide-on-request"
   id="create-medicine-reminder-form"
   hx-post="{% url 'create_medicine_reminder' %}"
-  hx-target="#medicine-reminder-list"
+  hx-target="#reminder-list"
   hx-swap="innerHTML beforeend"
 >
   {% csrf_token %} 
