@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div id="main" class="row d-flex">
+<div id="main" class="">
   {% if persons %}
   <div class="col-md-2">
     <div id="medicine-list" hx-get="{% url 'medicine_list' %}" hx-trigger="new_med_event from:body">
