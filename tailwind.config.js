@@ -2,8 +2,21 @@
 module.exports = {
   content: ['./templates/**/*.html'],
   theme: {
-    extend: {},
+    fontFamily: {
+      'sans': ['Montserrat', 'sans-serif'],
+      'serif': ['Garamond', 'serif'],
+      'mono': ['Lato', 'monospace'],
+    },
+    extend: {
+       fontFamily: {
+        'montserrat': ['Montserrat'],
+        'lato': ['Lato'],
+        'garamond': ['Garamond']
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
 

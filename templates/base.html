@@ -1,19 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-white">
   <head>
     <title>Medicine App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <link href="{% static 'output.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap" rel="stylesheet">
 
   </head>
-  <body>
-  <div class="flex h-screen">
+  <body class="h-full">
+  <div id="main" class="flex h-screen">
         {% include 'partials/navbar.html' %}
         <div id="main" class="flex flex-col flex-1 overflow-y-auto">
+          <div id="container">
             {% block content %} 
+
             {% endblock content %}
+          </div>
         </div>  
   </div>
 

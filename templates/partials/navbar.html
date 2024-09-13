@@ -2,7 +2,7 @@
 {% load static %}
     <!-- sidebar -->
     <div class="hidden md:flex flex-col w-64 border-r-2 border-gray-300">
-        <div class="flex items-center justify-center h-16">
+        <div class="flex ml-2 mt-10 px-4 h-16">
           <h1 class="text-2xl font-bold tracking-tight text-red-600">MediTrack</h1>
           <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -11,8 +11,16 @@
           </svg> -->
        </div>
       <div class="flex flex-col flex-1 overflow-y-auto">
-            <nav class="flex-1 px-4 py-4">
-                <a href="#" class="rounded flex items-center px-4 py-2 text-slate-950 font-semibold hover:bg-gray-100 hover:text-indigo-800">
+          <nav class="flex-1 px-4 py-4">
+                <a href="#" class="rounded flex items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-gray-100 hover:text-indigo-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    Personer
+                </a>
+                <a href="#" class="rounded flex items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-gray-100 hover:text-indigo-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -20,9 +28,9 @@
                     </svg>
                     Kalender
                 </a>
-                <a hx-get="{% url 'medicine_list' %}" hx-target="#main" hx-swap="innerHTML"
+                <a hx-get="{% url 'medicine_list' %}" hx-target="#container" hx-swap="innerHTML"
                   class="leading-3 flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 font-medium
-                   hover:bg-gray-100 hover:text-indigo-800">
+                   hover:bg-gray-100 hover:text-indigo-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -30,7 +38,7 @@
                     </svg>
                     Mediciner
                   </a>
-                <a href="#" class="flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 hover:bg-gray-100 hover:text-indigo-800">
+                <a href="#" class="flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 hover:bg-gray-100 hover:text-indigo-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
