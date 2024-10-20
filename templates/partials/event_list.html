@@ -1,9 +1,11 @@
 <div class="fade-me-in fade-me-out">
-  <h4>Händelser</h4>
-  <h4>
+  <h2 class="text-2xl font-bold text-gray-800 mb-2">Händelser</h2>
+  <h3 class="text-xl font-bold text-gray-800 mb-2">
     {{ date|date:"j F" }}
-  </h4>
+  </h3>
+<ul role="list" class="divide-y divide-slate-400">
   {% for event in events %}
     {% include "partials/event_item.html" with event=event %}
   {% endfor %}
+</ul>
 </div>

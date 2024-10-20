@@ -1,33 +1,31 @@
 <button
   id="day-{{ day }}"
-  class="btn btn-light d-flex justify-content-center p-0"
+  class="pt-1 min-h-32 max-h-32 hover:bg-slate-200 relative"
   hx-get="{% url 'show_create_event_form' day %}"
   hx-target="#event-container"
   hx-swap="settle:0.5s"
 >
-{% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
-  <p id="day-{{ i }}-p" class="day-current">
+<div class="grid grid-rows-5 mb-1">
+  {% if i|stringformat:'s' == current_day and current_month == date.month|stringformat:'s' %}
+  <p id="day-{{ i }}-p" class="text-sm">
     <strong>{{ i }}</strong>
   </p>
 {% else %}
-<div id="selected-day-{{ i }}">
+<div id="selected-day-{{ i }}" class="text-center absolute top-0 inset-x-0">
   <p
-   id="day-{{ i }}-p" 
-   class="day"
+  id="day-{{ i }}-p" 
+  class="text-sm"
   >
-    {{ day }}
+  {{ day }}
   </p>
 </div>
 {% endif %}
-  <div id="day-{{ day }}-events" class="badge-container">
-    {% for event in events %}
-      {% if event.date.day == day %}
-        <span id="event-badge-{{ event.date.day }}" class="badge custom-badge">
-          <p>
-            {{ event.medicine.name }}
-          </p>
-        </span>
-      {% endif %}
-    {% endfor %}
-  </div>
+<div id="day-{{ day }}-events" class="mt-3 px-1">
+{% for event in events %}
+  {% if event.date.day == day %}
+  {% include "partials/event_badge.html" %}
+  {% endif %}
+{% endfor %}
+</div>
+</div>
 </button>

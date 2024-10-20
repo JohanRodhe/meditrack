@@ -1,36 +1,40 @@
 <form
     id="create-person-form" 
+    class="mx-2"
     hx-post="{% url 'create_person' %}" 
     hx-target="#person-list" 
     hx-swap="beforeend"
 >
     {% csrf_token %} 
-            {% for field in form %}
-            <div class="form-floating position-relative">
-                <input
-                    type="{{ field.field.widget.input_type }}"
-                    class="form-control meditrack-input"
-                    id="{{ field.id_for_label }}"
-                    name="{{ field.html_name }}"
-                />
-                <label for="{{ field.id_for_label }}" class="form-label">
-                    {{ field.label }}
-                </label>
-            </div>
-            {% endfor %}
-            <div class="mt-1">
-
-            <button type="submit" value="Save" class="btn btn-primary">
-                 Spara
-            </button>
-            <button
-                type="button"
-                class="btn btn-secondary"
-                hx-get="{% url 'empty_view' %}"
-                hx-target="#person_form_container"
-                hx-swap="innerHTML"
-            >
-                 Avbryt
-            </button>
-            </div>
+    {% for field in form %}
+    <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900">
+            {{ field.label }}
+        </label>
+        <div class="form-floating position-relative">
+            <input
+                type="{{ field.field.widget.input_type }}"
+                required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900
+                        shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                id="{{ field.id_for_label }}"
+                name="{{ field.html_name }}"
+            />
+        </div>
+    </div>
+    {% endfor %}
+    <div class="mt-1">
+        <button type="submit" value="Save" class="rounded px-3 py-2 bg-sky-500 text-white font-semibold hover:bg-sky-700">
+            Spara
+        </button>
+        <button
+            type="button"
+            class="rounded px-3 py-2 bg-slate-600 text-white font-semibold hover:bg-slate-800"
+            hx-get="{% url 'empty_view' %}"
+            hx-target="#person-form-container"
+            hx-swap="innerHTML"
+        >
+            Avbryt
+        </button>
+    </div>
 </form>

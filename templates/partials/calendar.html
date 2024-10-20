@@ -1,5 +1,38 @@
 {% load templatetags %} {% load tz %} {% block content %}
-<div class="month ">
+<div class="flex flex-row mx-5">
+  <div class="w-2/3">
+    <h1 class="text-4xl my-5 font-bold tracking-tight text-gray-900 sm:text-6xl">Kalender</h1>
+    <div class="rounded shadow-lg">
+      <div class="rounded bg-slate-100">
+          <h2 class="text-xl sm:text-2xl leading-6 px-4 py-2 capitalize">{{ date|date:"F" }} {{ date.year }}</h2>
+      </div>
+      <div class="grid grid-cols-7 border-collapse divide-x divide-slate-200 text-center text-sm ">
+        <p class="border-b py-2">Mån</p>
+        <p class="py-2">Tis</p>
+        <p class="py-2">Ons</p>
+        <p class="py-2">Tor</p>
+        <p class="py-2">Fre</p>
+        <p class="py-2">Lör</p>
+        <p class="py-2">Sön</p>
+      </div>
+      <div class="grid grid-cols-7 text-center divide-x divide-y border-collapse divide-slate-200">
+        {% with month=date.month %}
+        {% for date in dates_in_calendar %}
+          {% with day=date.day %}
+          {% include "partials/day_button.html" with events=events day=day %}
+          {% endwith %}
+        {% endfor %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+  <div id="event-container" class="my-10 mx-5">
+  </div>
+</div>
+{% endblock %}
+<!-- <div class="flex flex-col mx-5">
+  <h1 class="text-4xl my-5 font-bold tracking-tight text-gray-900 sm:text-6xl">Kalender</h1>
+  <div class="month ">
   <ul class="d-flex align-items-center">
     <button
     class="prev btn"
@@ -35,12 +68,14 @@
   {% now "j" as current_day %}
   {% now "n" as current_month %}
   {% with month=date.month %}
+  <div class="grid grid-cols-7 gap-1">
   {% for i in month|get_days_in_month %}
-  <li class="position-relative">
+  <div class="position-relative">
     {% with day=i %}
         {% include "partials/day_button.html" with events=events day=day %}
     {% endwith %}
   {% endfor %} {% endwith %}
-  </li>
+  </div>
+  </div>
 </ul>
-{% endblock %}
+</div> -->

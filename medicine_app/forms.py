@@ -27,7 +27,6 @@ class MedicineEventForm(forms.ModelForm):
         person = kwargs.pop('person', None)
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
             if isinstance(visible.field, forms.ChoiceField):
                 visible.field.empty_label = ""
         if person is not None:

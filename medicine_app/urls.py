@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('person/<int:pk>', views.home, name='home'),
     path('medicines-list', views.MedicineList.as_view(), name='medicine_list'),
+    path('calendar', views.show_calendar, name='calendar'),
     path('show-events/<str:date>', views.show_events, name='show_events'),
     path('create-medicine', views.create_medicine, name='create_medicine'),
     path('create-event', views.create_event, name='create_event'),

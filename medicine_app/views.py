@@ -7,20 +7,30 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 import datetime
 from dateutil.relativedelta import relativedelta
+import calendar
 import json
 
 DATE = datetime.datetime.now()
 
 class MedicineList(ListView):
     model = Medicine
-    template_name = "partials/medicine_list.html"
     context_object_name = "medicines"
+
+    def get_template_names(self) -> list[str]:
+        if 'HX-Request' in self.request.headers:
+            return "partials/medicine_list.html"
+        else:
+            return "medicine_page.html"
 
     def get_context_data(self, **kwargs):
         global DATE
         context = super(MedicineList, self).get_context_data(**kwargs)
         context["form"] = MedicineForm()
         context["date"] = DATE
+        context["persons"] = Person.objects.filter(user=self.request.user)
+        person_id = self.request.session.get("current_person_id")
+        person = Person.objects.filter(pk=person_id).first()
+        context["person"] = person
         return context
     
     def get_queryset(self):
@@ -39,6 +49,32 @@ def show_events(request, date):
 
 def index(request):
     return render(request, "index.html", {})
+
+@login_required
+def show_calendar(request):
+    person_id = request.session.get("current_person_id")
+    person = Person.objects.filter(pk=person_id).first()
+    events = MedicineEvent.objects.filter(person=person, date__month=DATE.month)
+
+    first_day = DATE.replace(day=1)
+    last_day = calendar.monthrange(DATE.year, DATE.month)
+    diff = first_day.weekday()
+
+    first_day_in_calendar = first_day - datetime.timedelta(days=diff)
+    dates_in_calendar = [first_day_in_calendar + datetime.timedelta(days=i) for i in range(0, 35)]
+
+
+    if 'HX-Request' in request.headers:
+        return render(request, "partials/calendar.html", {"date": DATE, "events": events, "dates_in_calendar": dates_in_calendar})
+    else:
+        return render(request, "calendar.html", {"date": DATE,
+                                                  "events": events,
+                                                  "first_day": first_day,
+                                                  "last_day": last_day,
+                                                  "dates_in_calendar": dates_in_calendar,
+                                                  "diff": diff,
+                                                  "person": person,
+                                                  "persons": Person.objects.filter(user=request.user)})
 
 @login_required
 def home(request, pk=None):
@@ -66,7 +102,6 @@ def home(request, pk=None):
                         "events": events
                     })
 
-
 @login_required
 def create_medicine(request):
     person_id = request.session.get("current_person_id")
@@ -77,6 +112,7 @@ def create_medicine(request):
             medicine = form.save(commit=False)
             medicine.person = person
             medicine.save()
+            return render(request, "partials/medicine.html", {"medicine": medicine})
     else:
         form = MedicineForm(user=request.user)
 
@@ -91,13 +127,12 @@ def update_medicine(request, pk):
 
     return redirect('medicine_list')
 
-
 @require_http_methods(["DELETE"])
 def delete_medicine(request, pk):
     medicine = Medicine.objects.get(pk=pk)
     medicine.delete()
 
-    return redirect('medicine_list')
+    return HttpResponse(status=200)
 
 def show_create_form(request):
     return render(request, "partials/create_medicine_form.html", {"form": MedicineForm(user=request.user)})
@@ -118,6 +153,7 @@ def show_create_event_form(request, day):
 
 @login_required
 def create_event(request):
+    print("create event", request)
     person_id = request.session.get("current_person_id")
     person = Person.objects.filter(pk=person_id).first()
     if request.method == "POST":

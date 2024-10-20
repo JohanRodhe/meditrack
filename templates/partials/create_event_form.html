@@ -1,20 +1,6 @@
-<script>
-document.body.addEventListener('htmx:beforeRequest', function(event) {
-  if (event.detail.target.id === 'event-container') {
-    // Assuming you want to change the content of all buttons that could trigger this event
-    // You might need a way to identify the specific button that was clicked
-    // This example assumes there's a way to identify the button (e.g., using a class or data attribute)
-    var ps = document.querySelectorAll('.selected-day');
-    ps.forEach(function(p) {
-      p.classList.remove('selected-day');
-    });
-  }
-});
-</script>
-
 {% load tz %}
 {% load static %}
-<div class="fade-me-in fade-me-out">
+<div class="w-full max-w-sm bg-white shadow-lg rounded-lg border overflow-hidden mt-2 p-4">
   <div id="event-list"
         hx-get="{% url 'show_events' date %}"
         hx-trigger="new_med_event from:body"
@@ -22,45 +8,65 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
     {% include "partials/event_list.html" %}
   </div>
 </div>
-<h4 class="mt-4 pb-2 fade-me-in">Skapa ny</h4>
-<form
-  class="mb-0 bg-white rounded fade-me-in"
-  id="create-event-form"
-  hx-post="{% url 'create_event' %}"
-  hx-target="#day-{{ date.day }}-events"
-  hx-swap="beforeend"
-  hx-on::after-request="this.reset();"
->
-  {% csrf_token %} {% for field in form %}
-  <div class="form-floating mb-2 position-relative">
-    {{ field }}
-    <label for="{{ field.id_for_label }}" class="form-label"
-      >{{ field.label }}</label
-    >
-  </div>
-  {% endfor %}
-  <button type="submit" value="Save" class="btn btn-primary mt-1 px-3">
-      <div class="button-text">
-        <i class="fa fa-plus"></i>
-        Spara
-      </div>
-      <img
-        id="spinner"
-        class="htmx-indicator"
-        src="{% static '785.svg' %}"
-      />
-  </button>
-  <button
-    type="button"
-    class="btn btn-secondary mt-1 px-3"
-    hx-get="{% url 'empty_view' %}"
-    hx-target="#event-container"
-    hx-swap="swap:0.5s"
+<div class="w-full max-w-sm bg-white shadow-lg rounded-lg border overflow-hidden mt-2 p-4">
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">Skapa ny</h2>
+  <form
+    class="mb-0 bg-white rounded fade-me-in"
+    id="create-event-form"
+    hx-post="{% url 'create_event' %}"
+    hx-target="#day-{{ date.day }}-events"
+    hx-swap="beforeend"
+    hx-on::after-request="this.reset();"
   >
-    Stäng
-  </button>
-</form>
-<div
+    {% csrf_token %}
+    <label for="{{ form.medicine.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900 mb-1">
+        Datum
+    </label>
+    <input
+        type="{{ form.date.field.widget.input_type }}"
+        value="{{ date|date:'SHORT_DATE_FORMAT' }}"
+        required
+        readonly
+        class="font-semibold border-0 text-gray-900
+                  placeholder:text-gray-400 p-0 mb-2 sm:text-sm sm:leading-6"
+        id="{{ form.date.id_for_label }}"
+        name="{{ form.date.html_name }}"
+    />
+    <label for="{{ form.medicine.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900 mb-2">
+        Medicin
+    </label>
+      <select id="{{ form.medicine.id_for_label }}" name="{{ form.medicine.html_name }}" class="block w-full rounded-md border-0 py-1.5 mb-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+        {% for choice in form.medicine.field.choices %}
+          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+      </select>
+    <label for="{{ form.doses.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900 mb-2">
+        Doser
+    </label>
+    <input
+        type="{{ form.doses.field.widget.input_type }}"
+        required
+        class="rounded-md block flex-1 border-0 bg-transparent py-1.5 pl-1 mb-4 text-gray-900 placeholder:text-gray-400 ring-1 ring-gray-300 focus:ring-1 sm:text-sm sm:leading-6"
+        id="{{ form.doses.id_for_label }}"
+        name="{{ form.doses.html_name }}"
+    />
+    <div class="my-2">
+      <button type="submit" value="Save" class="rounded px-3 py-2 bg-sky-500 text-white font-semibold hover:bg-sky-700">
+            Spara
+      </button>
+      <button
+        type="button"
+        class="rounded px-3 py-2 bg-slate-600 text-white font-semibold hover:bg-slate-800"
+        hx-get="{% url 'empty_view' %}"
+        hx-target="#event-container"
+        hx-swap="innerHTML"
+      >
+        Avbryt
+      </button>
+    </div>
+  </form>
+</div>
+<!-- <div
     id="selected-day-{{ date.day }}"
     class="selected-day" 
     hx-swap-oob="true"
@@ -71,5 +77,4 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
   >
     {{ date.day }}
   </p>
-</div>
-
+</div> -->

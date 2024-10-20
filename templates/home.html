@@ -3,43 +3,34 @@
 {% load static %}
   {% if persons %}
   <div class="col-md-2">
-    <div id="medicine-list" hx-get="{% url 'medicine_list' %}" hx-trigger="new_med_event from:body">
-    {% include "partials/medicine_list.html" %}
-    </div> 
-    <button
-      class="btn btn-outline-primary mt-1 mb-2 w-100"
-      hx-get="{% url 'show_create_form' %}"
-      hx-target="#medicine-form-container"
-      hx-swap="innerHTML"
-    >
-      <div class="button-text">
-        <i class="fa fa-plus"></i>
-        Lägg till
-      </div>
-      <img
-        id="spinner"
-        class="htmx-indicator"
-        src="{% static '785.svg' %}"
-      />
-    </button>
     <div id="medicine-form-container" class="hide-on-request">
     </div>
   </div>
-  <div id="container" class="slide-it col-md-8">
-    {% include "partials/calendar.html" %}
+  <div class="flex flex-row mx-5">
+    <div class="w-2/3">
+      <h1 class="text-4xl my-5 font-bold tracking-tight text-gray-900 sm:text-6xl">Hem</h1>
+    </div>
   </div>
   <div id="event-container" class="col-md-2 fade-me-out">
   </div>
   {% else %}
-  <div class="col-md-6">
-    <div class="alert alert-warning" role="alert">
-      <h4 class="alert-heading">Välkommen!</h4>
-      <p>
+  <div class="container w-1/2 my-10 mx-auto">
+
+  <div class="rounded p-4 bg-yellow-200">
+      <h4 class="font-semibold text-slate-950">Välkommen!</h4>
+      <p class="text-slate-800">
         Det ser ut som att du inte har lagt till någon person. Klicka på
         knappen nedan för att lägga till din första person.
       </p>
-      <hr />
-    </div>
+  </div>
+    <button class="w-full hover:bg-indigo-500 text-white
+        font-bold mt-4 py-2 px-4 rounded bg-indigo-600"
+        hx-get="{% url 'create_person' %}" 
+        hx-target="#person-form-container"
+        hx-swap="innerHTML">
+      Lägg till person
+    </button>
+  </div>
   </div>
 {% endif %}
 {% endblock content %}

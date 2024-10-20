@@ -1,19 +1,14 @@
-  <div class="card mt-1">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-8">
-                <h5 class="card-title">{{ event.medicine }}</h5>
-                <p class="card-text">{{ event.doses }} dos(er)</p>
-            </div>
-            <div class="col-4">
-                <button
-                    class="btn btn-outline-danger"
-                    hx-delete="{% url 'delete_event' event.pk %}"
-                    hx-target="#event-badge-{{ date.day }}"
-                >
-                    <i class="fa fa-trash"></i>
-                </button>
-            </div>
-        </div>
+<li class="flex justify-between gap-x-6 py-5">
+<div class="flex min-w-0 gap-x-4">
+    <!-- <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt=""> -->
+    <div class="min-w-0 flex-auto">
+    <p class="text-sm font-semibold leading-6 text-gray-900">{{ event.medicine }}</p>
+    <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{ event.doses }} dos/er</p>
     </div>
-  </div>
+</div>
+<div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+    <button hx-delete="{% url 'delete_event' event.pk %}" hx-target="#event-badge-{{ event.pk }}" class="font-medium text-indigo-600 hover:text-indigo-500 text-sm">
+        Ta bort
+    </button>
+</div>
+</li>

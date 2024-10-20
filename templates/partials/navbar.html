@@ -1,52 +1,75 @@
 {% if user.is_authenticated %}
 {% load static %}
     <!-- sidebar -->
-    <div class="hidden md:flex flex-col w-64 border-r-2 border-gray-300">
-        <div class="flex ml-2 mt-10 px-4 h-16">
-          <h1 class="text-2xl font-bold tracking-tight text-red-600">MediTrack</h1>
+<div class="hidden md:flex flex-col w-64 border-r-1 bg-slate-50 border-slate-100">
+    <div class="flex ml-2 mt-10 px-4 h-16">
+        <h1 class="text-2xl font-bold tracking-tight text-red-600">MediTrack</h1>
           <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
           </svg> -->
-       </div>
-      <div class="flex flex-col flex-1 overflow-y-auto">
-          <nav class="flex-1 px-4 py-4">
-                <a href="#" class="rounded flex items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-gray-100 hover:text-indigo-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    Personer
-                </a>
-                <a href="#" class="rounded flex items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-gray-100 hover:text-indigo-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    Kalender
-                </a>
-                <a hx-get="{% url 'medicine_list' %}" hx-target="#container" hx-swap="innerHTML"
-                  class="leading-3 flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 font-medium
-                   hover:bg-gray-100 hover:text-indigo-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    Mediciner
-                  </a>
-                <a href="#" class="flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 hover:bg-gray-100 hover:text-indigo-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Påminnelser
-                </a>
-            </nav>
-        </div>
     </div>
+    <div class="flex flex-col flex-1 overflow-y-auto" >
+        <nav class="flex-1 px-4 py-4 space-y-6" >
+            <details>
+                <summary class="rounded flex cursor-pointer px-4 py-2 mb-4 items-center text-slate-950 font-semibold hover:bg-slate-200 hover:text-indigo-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                    <p class="select-none">{{ person }}</p>
+                </summary>
+                <div id="person-list">
+                    {% for p in persons %}
+                    {% include 'partials/person.html' with person=p current=person %}
+                    {% endfor %}
+                </div>
+                <button class="w-full flex rounded items-center px-4 py-2 mt-2 bg-sky-500 text-white font-semibold hover:bg-sky-700"
+                        hx-get="{% url 'create_person' %}" hx-target="#person-form-container" hx-swap="innerHTML">
+                    Lägg till person
+                </button>
+                <div id="person-form-container" class="hide-on-request"></div>
+            </details>
+            <a href="#" _="on click take .active from .rounded for the event's target" hx-get="{% url 'calendar' %}" hx-push-url="true" hx-target="#main" hx-swap="innerHTML" class="transition-all ease-in-out rounded flex items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-slate-200 hover:text-indigo-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                        </svg>
+                        Kalender
+            </a>
+            <a href="#" _="on click take .active from .rounded for the event's target"
+               hx-get="{% url 'medicine_list' %}" hx-push-url="true" hx-target="#main" hx-swap="innerHTML"
+               class="rounded leading-3 flex items-center px-4 py-2 mt-2 font-semibold text-slate-950 hover:bg-slate-200 hover:text-indigo-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="m15 11.25 1.5 1.5.75-.75V8.758l2.276-.61a3 3 0 1 0-3.675-3.675l-.61 2.277H12l-.75.75 1.5 1.5M15 11.25l-8.47 8.47c-.34.34-.8.53-1.28.53s-.94.19-1.28.53l-.97.97-.75-.75.97-.97c.34-.34.53-.8.53-1.28s.19-.94.53-1.28L12.75 9M15 11.25 12.75 9" />
+                        </svg>
+                        Mediciner
+            </a>
+            <a href="#" _="on click take .active from .rounded for the event's target" class="rounded leading-3 flex items-center px-4 py-2 mt-2 font-semibold text-slate-950
+                    hover:bg-slate-200 hover:text-indigo-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        Påminnelser
+            </a>
+            <div>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full flex rounded items-center px-4 py-2 mt-2 text-slate-950 font-semibold hover:bg-slate-200 hover:text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                                </svg>
+                                    Logga ut
+                            </button>
+                        </form>
+            </div>
+        </nav>
+    </div>
+</div>
 {% endif %}
